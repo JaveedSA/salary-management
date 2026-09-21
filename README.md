@@ -139,3 +139,11 @@ Run Angular tests from `frontend`:
 ```powershell
 npm test -- --watch=false --browsers=ChromeHeadless
 ```
+
+Run browser workflow tests with the Angular server running in another terminal:
+
+```powershell
+npm run e2e
+```
+
+The Playwright workflows mock API responses and cover login, role-aware navigation, employee compensation, reporting, approval, and audit history. Install a local Chrome browser before running them.
