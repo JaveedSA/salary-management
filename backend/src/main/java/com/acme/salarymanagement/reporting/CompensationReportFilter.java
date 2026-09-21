@@ -17,6 +17,7 @@ public class CompensationReportFilter {
     private String employmentType;
     private String currency;
     private String compensationType;
+    private String reportingCurrency;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate effectiveFrom;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -44,6 +45,8 @@ public class CompensationReportFilter {
     public void setCurrency(String currency) { this.currency = currency; }
     public String getCompensationType() { return compensationType; }
     public void setCompensationType(String compensationType) { this.compensationType = compensationType; }
+    public String getReportingCurrency() { return reportingCurrency; }
+    public void setReportingCurrency(String reportingCurrency) { this.reportingCurrency = reportingCurrency; }
     public LocalDate getEffectiveFrom() { return effectiveFrom; }
     public void setEffectiveFrom(LocalDate effectiveFrom) { this.effectiveFrom = effectiveFrom; }
     public LocalDate getEffectiveUntil() { return effectiveUntil; }

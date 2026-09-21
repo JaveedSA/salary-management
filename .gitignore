@@ -29,9 +29,14 @@ replay_pid*
 
 #Angular
 .node_modules/
+.angular/
+
 
 #vscode
 .vscode/
+
+#IntelliJ
+.idea/
 
 # Local salary-management data
 backend/data/

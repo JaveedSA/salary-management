@@ -8,6 +8,7 @@ import com.acme.salarymanagement.domain.ApprovalStatus;
 import com.acme.salarymanagement.domain.CompensationPeriod;
 import com.acme.salarymanagement.domain.CompensationRecord;
 import com.acme.salarymanagement.domain.CompensationTimelineItem;
+import com.acme.salarymanagement.audit.AuditEventService;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -17,9 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class CompensationService {
 
     private final CompensationRepository repository;
+    private final AuditEventService auditEventService;
 
-    public CompensationService(CompensationRepository repository) {
+    public CompensationService(CompensationRepository repository, AuditEventService auditEventService) {
         this.repository = repository;
+        this.auditEventService = auditEventService;
     }
 
     @Transactional(readOnly = true)
@@ -53,7 +56,10 @@ public class CompensationService {
             compensationRecord.compensationType(), compensationRecord.amountMinorUnits(),
             compensationRecord.currencyCode().toUpperCase(Locale.ROOT), compensationRecord.payFrequency(),
             compensationRecord.effectiveFrom(), compensationRecord.effectiveUntil(), compensationRecord.reason(), status);
-        return repository.save(new CompensationEntity(normalizedRecord)).toRecord();
+        CompensationEntity saved = repository.save(new CompensationEntity(normalizedRecord));
+        auditEventService.record("COMPENSATION", saved.getId(), "CREATED", null, normalizedRecord.toString(),
+            normalizedRecord.reason(), "API", null, null);
+        return saved.toRecord();
     }
 
     private static CompensationPeriod classify(CompensationRecord compensationRecord, LocalDate today) {

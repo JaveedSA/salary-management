@@ -42,6 +42,10 @@ public class AuthorizationService {
         return hasRole(authentication, "HR_MANAGER");
     }
 
+    public boolean canDecideApprovals(Authentication authentication) {
+        return hasRole(authentication, "HR_MANAGER");
+    }
+
     public boolean canAdminister(Authentication authentication) {
         return hasRole(authentication, "ADMIN");
     }

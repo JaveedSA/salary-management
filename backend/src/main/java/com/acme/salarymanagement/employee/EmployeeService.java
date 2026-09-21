@@ -3,6 +3,7 @@ package com.acme.salarymanagement.employee;
 import java.util.List;
 
 import com.acme.salarymanagement.domain.EmployeeProfile;
+import com.acme.salarymanagement.audit.AuditEventService;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -12,9 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class EmployeeService {
 
     private final EmployeeRepository repository;
+    private final AuditEventService auditEventService;
 
-    public EmployeeService(EmployeeRepository repository) {
+    public EmployeeService(EmployeeRepository repository, AuditEventService auditEventService) {
         this.repository = repository;
+        this.auditEventService = auditEventService;
     }
 
     @Transactional(readOnly = true)
@@ -37,7 +40,10 @@ public class EmployeeService {
         if (repository.findByEmployeeIdentifier(profile.employeeIdentifier()).isPresent()) {
             throw new IllegalArgumentException("Employee identifier already exists");
         }
-        return repository.save(new EmployeeEntity(profile)).toProfile();
+        EmployeeEntity saved = repository.save(new EmployeeEntity(profile));
+        auditEventService.record("EMPLOYEE", saved.getId(), "CREATED", null, profile.toString(),
+            "Employee profile created", "API", null, null);
+        return saved.toProfile();
     }
 
     @Transactional
@@ -45,11 +51,15 @@ public class EmployeeService {
     public EmployeeProfile update(long id, EmployeeProfile profile) {
         validate(profile);
         EmployeeEntity employee = repository.findById(id).orElseThrow();
+        String previousValue = employee.toProfile().toString();
         if (repository.existsByEmployeeIdentifierAndIdNot(profile.employeeIdentifier(), id)) {
             throw new IllegalArgumentException("Employee identifier already exists");
         }
         employee.update(profile);
-        return repository.save(employee).toProfile();
+        EmployeeEntity saved = repository.save(employee);
+        auditEventService.record("EMPLOYEE", saved.getId(), "UPDATED", previousValue, profile.toString(),
+            "Employee profile updated", "API", null, null);
+        return saved.toProfile();
     }
 
     private static void validate(EmployeeProfile profile) {

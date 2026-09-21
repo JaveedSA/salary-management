@@ -1,6 +1,7 @@
 package com.acme.salarymanagement.reporting;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -24,11 +25,19 @@ public class CompensationReportService {
 
     private final EmployeeRepository employeeRepository;
     private final CompensationRepository compensationRepository;
+    private final Map<String, Double> fxRatesToUsd;
+    private final String fxRateSource;
+    private final LocalDate fxRateDate;
+    private final int privacyThreshold;
 
     public CompensationReportService(EmployeeRepository employeeRepository,
             CompensationRepository compensationRepository) {
         this.employeeRepository = employeeRepository;
         this.compensationRepository = compensationRepository;
+        this.fxRatesToUsd = Map.of("USD", 1.0, "GBP", 1.27, "CAD", 0.74, "INR", 0.012, "JPY", 0.0067);
+        this.fxRateSource = "configured-initial-rates";
+        this.fxRateDate = LocalDate.of(2026, 1, 1);
+        this.privacyThreshold = 5;
     }
 
     @Transactional(readOnly = true)
@@ -56,6 +65,98 @@ public class CompensationReportService {
                 LinkedHashMap::new, Collectors.toList())).entrySet().stream()
                 .map(group -> metric(group.getKey(), group.getValue(), selectedTypes, filter))
                 .toList();
+    }
+
+    @Transactional(readOnly = true)
+    @PreAuthorize("@authorizationService.canViewReports(authentication)")
+    public NormalizedCompensationMetric normalizedMetrics(CompensationReportFilter filter) {
+        if (filter.getReportingCurrency() == null || filter.getReportingCurrency().isBlank()) {
+            throw new IllegalArgumentException("Reporting currency is required for currency normalization");
+        }
+        if (filter.getCompensationType() == null || filter.getCompensationType().isBlank()) {
+            throw new IllegalArgumentException("Select at least one compensation type for metrics");
+        }
+        String target = filter.getReportingCurrency().trim().toUpperCase(Locale.ROOT);
+        List<CompensationReportEntry> entries = filter(filter);
+        if (entries.isEmpty()) {
+            return new NormalizedCompensationMetric(target, 0, 0, 0, 0, 0, 0, 0,
+                    filter.getCompensationType(), dateBasis(filter), Map.of(), fxRateSource, fxRateDate);
+        }
+        requireRate(target);
+        Map<String, Long> nativeTotals = entries.stream().collect(Collectors.groupingBy(
+                CompensationReportEntry::currencyCode, LinkedHashMap::new,
+                Collectors.summingLong(CompensationReportEntry::amountMinorUnits)));
+        List<Long> converted = entries.stream().map(entry -> convert(entry.amountMinorUnits(), entry.currencyCode(), target))
+                .sorted().toList();
+        long total = converted.stream().mapToLong(Long::longValue).sum();
+        long median = converted.get(converted.size() / 2);
+        if (converted.size() % 2 == 0) {
+            median = (converted.get(converted.size() / 2 - 1) + converted.get(converted.size() / 2)) / 2;
+        }
+        long periodChange = periodChange(entries, target);
+        return new NormalizedCompensationMetric(target,
+                (int) entries.stream().map(CompensationReportEntry::employeeIdentifier).distinct().count(), total,
+                (double) total / converted.size(), median, converted.get(0), converted.get(converted.size() - 1),
+                periodChange, filter.getCompensationType(), dateBasis(filter), nativeTotals, fxRateSource, fxRateDate);
+    }
+
+    @Transactional(readOnly = true)
+    @PreAuthorize("@authorizationService.canViewReports(authentication)")
+    public List<CompensationAggregateMetric> aggregateMetrics(CompensationReportFilter filter) {
+        if (filter.getCompensationType() == null || filter.getCompensationType().isBlank()) {
+            throw new IllegalArgumentException("Select at least one compensation type for metrics");
+        }
+        List<CompensationReportEntry> entries = filter(filter);
+        String dateBasis = dateBasis(filter);
+        return entries.stream().collect(Collectors.groupingBy(CompensationReportEntry::currencyCode,
+                LinkedHashMap::new, Collectors.toList())).entrySet().stream().map(group -> {
+                    List<CompensationReportEntry> values = group.getValue();
+                    int employeeCount = (int) values.stream().map(CompensationReportEntry::employeeIdentifier)
+                            .distinct().count();
+                    if (employeeCount < privacyThreshold) {
+                        return CompensationAggregateMetric.suppressed(group.getKey(), employeeCount,
+                                filter.getCompensationType(), dateBasis,
+                                "Aggregate restricted because the employee population is below " + privacyThreshold);
+                    }
+                    List<Long> amounts = values.stream().map(CompensationReportEntry::amountMinorUnits).sorted().toList();
+                    long total = amounts.stream().mapToLong(Long::longValue).sum();
+                    long median = amounts.get(amounts.size() / 2);
+                    if (amounts.size() % 2 == 0) {
+                        median = (amounts.get(amounts.size() / 2 - 1) + amounts.get(amounts.size() / 2)) / 2;
+                    }
+                    return new CompensationAggregateMetric(group.getKey(), employeeCount, false, null, total,
+                            (double) total / amounts.size(), median, amounts.get(0), amounts.get(amounts.size() - 1),
+                            0, filter.getCompensationType(), dateBasis);
+                }).toList();
+    }
+
+    private long periodChange(List<CompensationReportEntry> entries, String target) {
+        return entries.stream().collect(Collectors.groupingBy(
+                entry -> entry.employeeIdentifier() + "|" + entry.compensationType())).values().stream()
+                .mapToLong(period -> {
+                    List<CompensationReportEntry> ordered = new ArrayList<>(period);
+                    ordered.sort(Comparator.comparing(CompensationReportEntry::effectiveFrom));
+                    return convert(ordered.get(ordered.size() - 1).amountMinorUnits(),
+                            ordered.get(ordered.size() - 1).currencyCode(), target)
+                            - convert(ordered.get(0).amountMinorUnits(), ordered.get(0).currencyCode(), target);
+                }).sum();
+    }
+
+    private long convert(long amount, String source, String target) {
+        requireRate(source);
+        requireRate(target);
+        return Math.round(amount * fxRatesToUsd.get(source) / fxRatesToUsd.get(target));
+    }
+
+    private void requireRate(String currency) {
+        if (!fxRatesToUsd.containsKey(currency)) {
+            throw new IllegalArgumentException("No FX rate is configured for currency " + currency
+                    + " as of " + fxRateDate + "; source: " + fxRateSource);
+        }
+    }
+
+    private static String dateBasis(CompensationReportFilter filter) {
+        return String.valueOf(filter.getEffectiveFrom()) + " to " + String.valueOf(filter.getEffectiveUntil());
     }
 
     private static CompensationMetric metric(String currency, List<CompensationReportEntry> entries,

@@ -26,4 +26,14 @@ public class CompensationReportController {
     public List<CompensationMetric> metrics(@ModelAttribute CompensationReportFilter filter) {
         return service.metrics(filter);
     }
+
+    @GetMapping("/metrics/normalized")
+    public NormalizedCompensationMetric normalizedMetrics(@ModelAttribute CompensationReportFilter filter) {
+        return service.normalizedMetrics(filter);
+    }
+
+    @GetMapping("/metrics/aggregate")
+    public List<CompensationAggregateMetric> aggregateMetrics(@ModelAttribute CompensationReportFilter filter) {
+        return service.aggregateMetrics(filter);
+    }
 }

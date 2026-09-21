@@ -1,0 +1,24 @@
+:host { display: block; min-height: 100vh; background: #eaf0ee; color: #202b2c; }
+.report-shell { max-width: 1180px; margin: 0 auto; padding: 56px 28px 80px; }
+header { max-width: 700px; margin-bottom: 28px; }
+.eyebrow { color: #277267; font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+h1 { margin: 8px 0 12px; font: 700 clamp(2.3rem, 5vw, 4.6rem)/.98 Georgia, serif; letter-spacing: 0; }
+h2 { margin: 6px 0 0; font: 700 1.45rem/1.1 Georgia, serif; letter-spacing: 0; }
+.intro, .message { color: #596668; line-height: 1.6; }
+.panel { background: #fbfcf9; border: 1px solid #cddbd6; border-radius: 6px; box-shadow: 0 12px 30px #27483d0d; margin-top: 18px; padding: 24px; }
+.filters { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+label { color: #536263; font-size: .82rem; font-weight: 700; }
+input, select { box-sizing: border-box; display: block; margin-top: 7px; width: 100%; border: 1px solid #b7c9c3; border-radius: 3px; background: white; color: #202b2c; padding: 11px; }
+button { align-self: end; border: 0; border-radius: 4px; background: #277267; color: white; cursor: pointer; font-weight: 700; padding: 12px 16px; }
+button:disabled { cursor: not-allowed; opacity: .5; }
+.panel-heading { align-items: center; display: flex; justify-content: space-between; gap: 16px; }
+.panel-heading > span { color: #657574; font-size: .82rem; }
+.metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-top: 22px; }
+article { border: 1px solid #d5e0db; border-radius: 4px; display: grid; gap: 7px; padding: 16px; }
+article strong { color: #277267; font-size: 1.1rem; }
+article b { font-size: 1.35rem; }
+article small { color: #657574; }
+.aggregate-list { display: grid; gap: 10px; margin-top: 22px; }
+.aggregate-list article { align-items: center; display: grid; grid-template-columns: 100px 120px 1fr; }
+.aggregate-list p { color: #a34b32; margin: 0; }
+@media (max-width: 760px) { .report-shell { padding: 34px 16px 60px; } .filters { grid-template-columns: 1fr; } .aggregate-list article { align-items: start; grid-template-columns: 1fr; } }

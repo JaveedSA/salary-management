@@ -9,7 +9,7 @@
 
 - [x] 2.1 Configure Spring Security authentication, protected API routes, generic authentication failures, logout, and disabled-account handling.
 - [x] 2.2 Implement role and permission models for HR Manager, HR Executive, Employee, and Admin, including scoped access rules.
-- [ ] 2.3 Enforce authorization in backend services and queries for employee, compensation, import, reporting, audit, and administration operations.
+- [x] 2.3 Enforce authorization in backend services and queries for employee, compensation, import, reporting, audit, and administration operations.
 - [x] 2.4 Implement Angular login, logout, session handling, route guards, and role-aware navigation without relying on the client for security.
 - [x] 2.5 Add authorization tests covering full HR Manager access, limited HR Executive edits, employee self-access, and Admin system management without implicit salary access.
 
@@ -36,25 +36,25 @@
 - [x] 5.1 Implement report query filters for country, location, legal entity, department, business unit, job family, job level, employment status, employment type, currency, compensation type, and effective date.
 - [x] 5.2 Implement employee count, total, average, median, minimum, maximum, and period-change metrics for selected compensation types.
 - [x] 5.3 Implement explicit combined metrics for selected base salary, bonus, and allowance types without silently mixing types.
-- [ ] 5.4 Implement currency normalization with recorded reporting currency, FX rate source, and FX rate date while preserving native amounts.
-- [ ] 5.5 Implement configured small-group privacy suppression and ensure aggregate-only reports do not expose individual salary values.
-- [ ] 5.6 Build Angular reporting filters, summary tables, charts or comparison views, calculation context, and permitted export behavior.
-- [ ] 5.7 Add reporting tests for filtered populations, invalid dates, multi-currency conversion, missing FX data, selected compensation types, and privacy thresholds.
+- [x] 5.4 Implement currency normalization with recorded reporting currency, FX rate source, and FX rate date while preserving native amounts.
+- [x] 5.5 Implement configured small-group privacy suppression and ensure aggregate-only reports do not expose individual salary values.
+- [x] 5.6 Build Angular reporting filters, summary tables, charts or comparison views, calculation context, and permitted export behavior.
+- [x] 5.7 Add reporting tests for filtered populations, invalid dates, multi-currency conversion, missing FX data, selected compensation types, and privacy thresholds.
 
 ## 6. Audit and approvals
 
-- [ ] 6.1 Implement immutable audit event creation for employee, compensation, import, approval, rejection, and reversal actions.
-- [ ] 6.2 Record actor, timestamp, entity, action, old and new values, reason, source, and related batch or approval identifiers.
-- [ ] 6.3 Implement pending, approved, rejected, and reversed states for compensation changes and import batches with decision reasons.
-- [ ] 6.4 Implement audit-history APIs and restrict access to users with audit permission.
-- [ ] 6.5 Build Angular approval queue, decision form, employee audit timeline, and permission-aware audit views.
-- [ ] 6.6 Add tests proving audit events are retained, non-editable through normal operations, and created for approvals and reversals.
+- [x] 6.1 Implement immutable audit event creation for employee, compensation, import, approval, rejection, and reversal actions.
+- [x] 6.2 Record actor, timestamp, entity, action, old and new values, reason, source, and related batch or approval identifiers.
+- [x] 6.3 Implement pending, approved, rejected, and reversed states for compensation changes and import batches with decision reasons.
+- [x] 6.4 Implement audit-history APIs and restrict access to users with audit permission.
+- [x] 6.5 Build Angular approval queue, decision form, employee audit timeline, and permission-aware audit views.
+- [x] 6.6 Add tests proving audit events are retained, non-editable through normal operations, and created for approvals and reversals.
 
 ## 7. Migration, operations, and quality
 
-- [ ] 7.1 Define the production import template, required fields, country/currency rules, privacy threshold, and initial approval policy.
-- [ ] 7.2 Add database indexes and query tests for employee lookup, effective-date selection, reporting dimensions, and audit history at the 10,000-employee target.
-- [ ] 7.3 Add API, service, repository, and Angular component tests for the acceptance scenarios in all capability specifications.
+- [x] 7.1 Define the production import template, required fields, country/currency rules, privacy threshold, and initial approval policy.
+- [x] 7.2 Add database indexes and query tests for employee lookup, effective-date selection, reporting dimensions, and audit history at the 10,000-employee target.
+- [x] 7.3 Add API, service, repository, and Angular component tests for the acceptance scenarios in all capability specifications.
 - [ ] 7.4 Add end-to-end tests covering login, role restrictions, employee compensation changes, import confirmation, reporting, approval, and audit history.
-- [ ] 7.5 Document local setup, SQLite backup and restore, configuration, supported import formats, authorization model, and cutover rollback procedure.
+- [x] 7.5 Document local setup, SQLite backup and restore, configuration, supported import formats, authorization model, and cutover rollback procedure.
 - [ ] 7.6 Perform a staged pilot and final spreadsheet migration, reconcile results, and record the cutover evidence before making the application the operational source of truth.

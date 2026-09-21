@@ -16,6 +16,7 @@ import com.acme.salarymanagement.domain.CompensationRecord;
 import com.acme.salarymanagement.domain.EmployeeProfile;
 import com.acme.salarymanagement.employee.EmployeeEntity;
 import com.acme.salarymanagement.employee.EmployeeRepository;
+import com.acme.salarymanagement.audit.AuditEventService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,13 +29,16 @@ public class ImportService {
     private final EmployeeRepository employeeRepository;
     private final CompensationRepository compensationRepository;
     private final ImportFailureService failureService;
+        private final AuditEventService auditEventService;
 
     public ImportService(ImportBatchRepository repository, EmployeeRepository employeeRepository,
-            CompensationRepository compensationRepository, ImportFailureService failureService) {
+            CompensationRepository compensationRepository, ImportFailureService failureService,
+            AuditEventService auditEventService) {
         this.repository = repository;
         this.employeeRepository = employeeRepository;
         this.compensationRepository = compensationRepository;
         this.failureService = failureService;
+        this.auditEventService = auditEventService;
     }
 
     @Transactional
@@ -51,8 +55,10 @@ public class ImportService {
             if (lines.size() < 2) {
                 throw new IllegalArgumentException("CSV must contain a header and at least one data row");
             }
-            ImportBatchEntity batch = repository.save(
+                ImportBatchEntity batch = repository.save(
                     new ImportBatchEntity(file.getOriginalFilename(), uploaderId, lines.subList(1, lines.size())));
+                auditEventService.record("IMPORT_BATCH", batch.getId(), "STAGED", null, batch.getStatus().name(),
+                    "Import batch staged", "UPLOAD", batch.getId(), null);
             return ImportBatchSummary.from(batch);
         } catch (IOException exception) {
             throw new IllegalArgumentException("Could not read CSV upload", exception);
@@ -104,15 +110,19 @@ public class ImportService {
             throw new IllegalArgumentException("Explicit confirmation is required");
         }
         ImportBatchEntity batch = repository.findById(batchId).orElseThrow();
-        if (batch.getStatus() != com.acme.salarymanagement.domain.ImportStatus.VALIDATED) {
-            throw new IllegalArgumentException("Only fully validated batches can be applied");
+        if (batch.getStatus() != com.acme.salarymanagement.domain.ImportStatus.VALIDATED
+                && batch.getStatus() != com.acme.salarymanagement.domain.ImportStatus.APPROVED) {
+            throw new IllegalArgumentException("Only fully validated or approved batches can be applied");
         }
         try {
             for (ImportRowEntity row : batch.getRows()) {
                 applyRow(row.getRawData().split(",", -1));
             }
             batch.markApplied();
-            return ImportBatchSummary.from(repository.save(batch));
+            ImportBatchEntity saved = repository.save(batch);
+            auditEventService.record("IMPORT_BATCH", saved.getId(), "APPLIED", "VALIDATED", saved.getStatus().name(),
+                    "Import batch applied", "IMPORT", saved.getId(), null);
+            return ImportBatchSummary.from(saved);
         } catch (RuntimeException exception) {
             failureService.markFailed(batchId);
             throw exception;

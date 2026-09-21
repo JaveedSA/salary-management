@@ -105,6 +105,11 @@ public class ImportBatchEntity {
         this.status = ImportStatus.APPLIED;
     }
 
+    public void markPending() { this.status = ImportStatus.PENDING; }
+    public void markApproved() { this.status = ImportStatus.APPROVED; }
+    public void markRejected() { this.status = ImportStatus.REJECTED; }
+    public void markReversed() { this.status = ImportStatus.REVERSED; }
+
     public void markFailed() {
         this.status = ImportStatus.FAILED;
     }

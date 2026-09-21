@@ -1,0 +1,8 @@
+<main class="approval-shell">
+  <header><p class="eyebrow">Governance</p><h1>Approvals and audit</h1><p class="intro">Record decisions with reasons and inspect the chronological history of sensitive changes.</p></header>
+  <section class="columns">
+    <form class="panel" [formGroup]="form" (ngSubmit)="decide()"><span class="eyebrow">Decision form</span><h2>Compensation change</h2><label>Compensation record ID<input type="number" formControlName="compensationId" /></label><label>Decision<select formControlName="decision"><option value="APPROVED">Approve</option><option value="REJECTED">Reject</option><option value="REVERSED">Reverse</option></select></label><label>Reason<textarea formControlName="reason" rows="4"></textarea></label><button type="submit">Record decision</button></form>
+    <form class="panel" [formGroup]="auditForm" (ngSubmit)="loadAudit()"><span class="eyebrow">Audit timeline</span><h2>Inspect history</h2><label>Entity type<input formControlName="entityType" /></label><label>Entity ID<input type="number" formControlName="entityId" /></label><button type="submit">Load history</button><ol class="timeline"><li *ngFor="let audit of auditEvents"><strong>{{ audit.action }}</strong><span>{{ audit.createdAt | date:'medium' }} · {{ audit.source }}</span><p>{{ audit.reason || 'No reason supplied' }}</p></li></ol></form>
+  </section>
+  <p class="message" *ngIf="message">{{ message }}</p>
+</main>

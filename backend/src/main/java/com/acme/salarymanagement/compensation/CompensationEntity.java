@@ -64,6 +64,12 @@ public class CompensationEntity {
     }
 
     public long getEmployeeId() { return employeeId; }
+    public Long getId() { return id; }
+    public ApprovalStatus getStatus() { return status; }
+    public void decide(ApprovalStatus decision, String reason) {
+        status = decision;
+        this.reason = reason == null ? this.reason : reason;
+    }
     public CompensationType getCompensationType() { return compensationType; }
     public long getAmountMinorUnits() { return amountMinorUnits; }
     public String getCurrencyCode() { return currencyCode; }

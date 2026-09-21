@@ -27,6 +27,7 @@ class AuthorizationServiceTest {
         assertTrue(authorizationService.canApplyImports(authentication));
         assertTrue(authorizationService.canViewReports(authentication));
         assertTrue(authorizationService.canReadAudit(authentication));
+        assertTrue(authorizationService.canDecideApprovals(authentication));
     }
 
     @Test
@@ -38,6 +39,7 @@ class AuthorizationServiceTest {
         assertTrue(authorizationService.canReviewImports(authentication));
         assertFalse(authorizationService.canApplyImports(authentication));
         assertTrue(authorizationService.canViewReports(authentication));
+        assertFalse(authorizationService.canDecideApprovals(authentication));
     }
 
     @Test
