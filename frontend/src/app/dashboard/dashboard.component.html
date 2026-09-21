@@ -1,0 +1,19 @@
+<main class="dashboard-shell">
+  <header class="topbar">
+    <div class="wordmark"><span>ACME</span> / COMPENSATION</div>
+    <button class="logout" type="button" (click)="auth.logout()">Sign out</button>
+  </header>
+  <section class="dashboard-content">
+    <div class="heading-row">
+      <div><p class="eyebrow">HR MANAGER VIEW</p><h1>Good morning.</h1><p class="lede">The compensation picture, at a glance.</p></div>
+      <div class="date-stamp">19 SEPTEMBER 2026<br /><span>REPORTING PERIOD / Q3</span></div>
+    </div>
+    <nav class="workspace-nav" aria-label="Workspace navigation">
+      <a *ngIf="auth.hasAnyRole('HR_MANAGER', 'HR_EXECUTIVE', 'EMPLOYEE')" href="/employees">Employees</a><a *ngIf="auth.hasAnyRole('HR_MANAGER', 'HR_EXECUTIVE', 'EMPLOYEE')" href="#compensation">Compensation</a><a *ngIf="auth.hasAnyRole('HR_MANAGER', 'HR_EXECUTIVE')" href="#imports">Imports</a><a *ngIf="auth.hasAnyRole('HR_MANAGER', 'HR_EXECUTIVE')" href="#reports">Reports</a><a *ngIf="auth.hasAnyRole('HR_MANAGER')" href="#audit">Audit trail</a><a *ngIf="auth.hasAnyRole('ADMIN')" href="#administration">Administration</a>
+    </nav>
+    <section class="metrics" aria-label="Compensation workspace summary">
+      <article *ngFor="let priority of priorities"><strong>{{ priority.value }}</strong><span>{{ priority.label }}</span><small>{{ priority.detail }}</small></article>
+    </section>
+    <section class="question-panel"><div><p class="eyebrow">START WITH A QUESTION</p><h2>How does ACME pay people?</h2><p>Compare compensation by country, department, level, currency, or effective date.</p></div><button type="button">Open reporting</button></section>
+  </section>
+</main>

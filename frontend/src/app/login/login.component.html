@@ -1,0 +1,21 @@
+<main class="login-shell">
+  <section class="login-panel" aria-labelledby="login-title">
+    <div class="brand-mark" aria-hidden="true">A</div>
+    <p class="eyebrow">ACME PEOPLE OPERATIONS</p>
+    <h1 id="login-title">Compensation workspace</h1>
+    <p class="intro">Sign in to manage employee compensation and understand how ACME pays people.</p>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <label for="username">Username</label>
+      <input id="username" type="text" formControlName="username" autocomplete="username" />
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password" autocomplete="current-password" />
+      <p *ngIf="error" class="error" role="alert">Sign-in failed. Check your credentials and try again.</p>
+      <button type="submit" [disabled]="submitting">{{ submitting ? 'Signing in...' : 'Sign in' }}</button>
+    </form>
+  </section>
+  <aside class="login-aside">
+    <span class="aside-label">01 / CONTROLLED ACCESS</span>
+    <h2>One clear view of pay.</h2>
+    <p>Keep salary history, approvals, imports, and reporting in one governed workspace.</p>
+  </aside>
+</main>

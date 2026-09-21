@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: salary-management-api
+  datasource:
+    url: jdbc:sqlite:${SALARY_DB_PATH:./data/salary-management.db}
+    driver-class-name: org.sqlite.JDBC
+  jpa:
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+server:
+  port: ${SERVER_PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

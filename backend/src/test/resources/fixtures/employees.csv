@@ -1,0 +1,6 @@
+employee_identifier,full_name,work_email,employment_status,employment_type,hire_date,country,location,department,job_title,job_family,job_level,compensation_type,amount_minor_units,currency_code,pay_frequency,effective_from
+FIXTURE-001,Alex Morgan,alex.morgan@example.test,ACTIVE,FULL_TIME,2024-01-15,GB,London,Engineering,Software Engineer,Software Engineering,L4,BASE_SALARY,7800000,GBP,ANNUAL,2026-01-01
+FIXTURE-001,Alex Morgan,alex.morgan@example.test,ACTIVE,FULL_TIME,2024-01-15,GB,London,Engineering,Software Engineer,Software Engineering,L4,BONUS,780000,GBP,ANNUAL,2026-01-01
+FIXTURE-002,Jordan Lee,jordan.lee@example.test,ACTIVE,FULL_TIME,2023-05-22,CA,Toronto,Finance,Senior Analyst,Finance,L5,BASE_SALARY,9800000,CAD,ANNUAL,2026-01-01
+FIXTURE-003,Samira Patel,samira.patel@example.test,ACTIVE,FULL_TIME,2022-11-07,IN,Bengaluru,People,HR Specialist,Human Resources,L3,BASE_SALARY,2400000,INR,ANNUAL,2026-01-01
+FIXTURE-004,Emi Tanaka,emi.tanaka@example.test,ACTIVE,FULL_TIME,2021-08-30,JP,Tokyo,Operations,Operations Manager,Operations,L5,ALLOWANCE,180000,JPY,MONTHLY,2026-01-01

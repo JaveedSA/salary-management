@@ -1,0 +1,25 @@
+<main class="import-shell">
+  <header>
+    <p class="eyebrow">Data operations</p>
+    <h1>Compensation import</h1>
+    <p class="intro">Stage, inspect, and explicitly confirm a compensation file before it changes authoritative records.</p>
+  </header>
+
+  <section class="panel upload-panel">
+    <label for="source-file">Source CSV</label>
+    <input id="source-file" type="file" accept=".csv,text/csv" (change)="choose($event)" />
+    <button type="button" (click)="upload()" [disabled]="busy || !file">Stage upload</button>
+    <p class="message" *ngIf="message">{{ message }}</p>
+  </section>
+
+  <section class="panel" *ngIf="batch as currentBatch">
+    <div class="panel-heading"><div><span class="eyebrow">Batch {{ currentBatch.id }}</span><h2>{{ currentBatch.sourceFilename }}</h2></div><strong [class.valid]="currentBatch.status === 'VALIDATED'">{{ currentBatch.status }}</strong></div>
+    <div class="stats"><span><b>{{ currentBatch.totalRows }}</b> total</span><span><b>{{ currentBatch.acceptedRows }}</b> accepted</span><span><b>{{ currentBatch.rejectedRows }}</b> rejected</span></div>
+    <div class="actions"><button type="button" (click)="validate()" [disabled]="busy || currentBatch.status === 'APPLIED'">Validate rows</button><button type="button" class="quiet" (click)="loadDetails()" [disabled]="busy">Refresh preview</button><button type="button" class="quiet" (click)="downloadRejected()" [disabled]="!currentBatch.rejectedRows">Download rejected rows</button><button type="button" class="confirm" (click)="apply()" [disabled]="busy || currentBatch.status !== 'VALIDATED'">Confirm and apply</button></div>
+  </section>
+
+  <section class="panel preview" *ngIf="details as preview">
+    <div class="panel-heading"><div><span class="eyebrow">Row review</span><h2>Validation preview</h2></div><span>{{ preview.rows.length }} rows</span></div>
+    <div class="table-wrap"><table><thead><tr><th>Row</th><th>Status</th><th>Source values</th><th>Errors</th></tr></thead><tbody><tr *ngFor="let row of preview.rows"><td>{{ row.rowNumber }}</td><td><span class="status" [class.bad]="row.validationStatus === 'REJECTED'">{{ row.validationStatus }}</span></td><td class="raw">{{ row.rawData }}</td><td>{{ row.validationErrors || 'Ready to apply' }}</td></tr></tbody></table></div>
+  </section>
+</main>

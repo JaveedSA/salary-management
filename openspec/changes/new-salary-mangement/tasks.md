@@ -1,41 +1,41 @@
 ## 1. Project and persistence foundation
 
-- [ ] 1.1 Create the Spring Boot backend and Angular frontend project structure with local development configuration.
-- [ ] 1.2 Add SQLite connectivity, schema migration tooling, repository configuration, and a documented backup location.
-- [ ] 1.3 Define the database schema and domain models for employees, compensation records, import batches and rows, approvals, users, roles, and audit events.
-- [ ] 1.4 Add seed data and test fixtures for employees across multiple countries, currencies, departments, and compensation types.
+- [x] 1.1 Create the Spring Boot backend and Angular frontend project structure with local development configuration.
+- [x] 1.2 Add SQLite connectivity, schema migration tooling, repository configuration, and a documented backup location.
+- [x] 1.3 Define the database schema and domain models for employees, compensation records, import batches and rows, approvals, users, roles, and audit events.
+- [x] 1.4 Add seed data and test fixtures for employees across multiple countries, currencies, departments, and compensation types.
 
 ## 2. Authentication and authorization
 
-- [ ] 2.1 Configure Spring Security authentication, protected API routes, generic authentication failures, logout, and disabled-account handling.
-- [ ] 2.2 Implement role and permission models for HR Manager, HR Executive, Employee, and Admin, including scoped access rules.
+- [x] 2.1 Configure Spring Security authentication, protected API routes, generic authentication failures, logout, and disabled-account handling.
+- [x] 2.2 Implement role and permission models for HR Manager, HR Executive, Employee, and Admin, including scoped access rules.
 - [ ] 2.3 Enforce authorization in backend services and queries for employee, compensation, import, reporting, audit, and administration operations.
-- [ ] 2.4 Implement Angular login, logout, session handling, route guards, and role-aware navigation without relying on the client for security.
-- [ ] 2.5 Add authorization tests covering full HR Manager access, limited HR Executive edits, employee self-access, and Admin system management without implicit salary access.
+- [x] 2.4 Implement Angular login, logout, session handling, route guards, and role-aware navigation without relying on the client for security.
+- [x] 2.5 Add authorization tests covering full HR Manager access, limited HR Executive edits, employee self-access, and Admin system management without implicit salary access.
 
 ## 3. Employee and compensation management
 
-- [ ] 3.1 Implement employee profile create, update, search, and detail APIs with unique identifier validation.
-- [ ] 3.2 Implement effective-dated compensation records using integer minor units, ISO currency codes, pay frequency, reason, status, and approval metadata.
-- [ ] 3.3 Implement separate base salary, bonus, and allowance compensation types and enforce non-overlapping periods per employee and type transactionally.
-- [ ] 3.4 Implement current, historical, and future compensation queries with clear status and effective-date ordering.
-- [ ] 3.5 Build Angular employee list, profile form, compensation form, compensation history, and future-change views.
-- [ ] 3.6 Add backend and frontend validation for required fields, monetary values, currencies, dates, compensation types, and overlapping periods.
+- [x] 3.1 Implement employee profile create, update, search, and detail APIs with unique identifier validation.
+- [x] 3.2 Implement effective-dated compensation records using integer minor units, ISO currency codes, pay frequency, reason, status, and approval metadata.
+- [x] 3.3 Implement separate base salary, bonus, and allowance compensation types and enforce non-overlapping periods per employee and type transactionally.
+- [x] 3.4 Implement current, historical, and future compensation queries with clear status and effective-date ordering.
+- [x] 3.5 Build Angular employee list, profile form, compensation form, compensation history, and future-change views.
+- [x] 3.6 Add backend and frontend validation for required fields, monetary values, currencies, dates, compensation types, and overlapping periods.
 
 ## 4. Import and reconciliation
 
-- [ ] 4.1 Implement CSV and supported spreadsheet upload endpoints that create staged import batches without modifying authoritative records.
-- [ ] 4.2 Implement column mapping and row validation for employee identity, compensation types, dates, currencies, amounts, duplicates, and overlaps.
-- [ ] 4.3 Implement import preview, row-level errors, accepted/rejected row counts, rejected-row export, and batch status transitions.
-- [ ] 4.4 Implement explicit confirmation and atomic application of valid import batches with rollback on failure.
-- [ ] 4.5 Build Angular import upload, mapping, validation, preview, confirmation, and failure-recovery workflows.
-- [ ] 4.6 Run a pilot import fixture and reconcile employee counts, compensation totals, currencies, and effective periods against the source data.
+- [x] 4.1 Implement CSV and supported spreadsheet upload endpoints that create staged import batches without modifying authoritative records.
+- [x] 4.2 Implement column mapping and row validation for employee identity, compensation types, dates, currencies, amounts, duplicates, and overlaps.
+- [x] 4.3 Implement import preview, row-level errors, accepted/rejected row counts, rejected-row export, and batch status transitions.
+- [x] 4.4 Implement explicit confirmation and atomic application of valid import batches with rollback on failure.
+- [x] 4.5 Build Angular import upload, mapping, validation, preview, confirmation, and failure-recovery workflows.
+- [x] 4.6 Run a pilot import fixture and reconcile employee counts, compensation totals, currencies, and effective periods against the source data.
 
 ## 5. Compensation reporting
 
-- [ ] 5.1 Implement report query filters for country, location, legal entity, department, business unit, job family, job level, employment status, employment type, currency, compensation type, and effective date.
-- [ ] 5.2 Implement employee count, total, average, median, minimum, maximum, and period-change metrics for selected compensation types.
-- [ ] 5.3 Implement explicit combined metrics for selected base salary, bonus, and allowance types without silently mixing types.
+- [x] 5.1 Implement report query filters for country, location, legal entity, department, business unit, job family, job level, employment status, employment type, currency, compensation type, and effective date.
+- [x] 5.2 Implement employee count, total, average, median, minimum, maximum, and period-change metrics for selected compensation types.
+- [x] 5.3 Implement explicit combined metrics for selected base salary, bonus, and allowance types without silently mixing types.
 - [ ] 5.4 Implement currency normalization with recorded reporting currency, FX rate source, and FX rate date while preserving native amounts.
 - [ ] 5.5 Implement configured small-group privacy suppression and ensure aggregate-only reports do not expose individual salary values.
 - [ ] 5.6 Build Angular reporting filters, summary tables, charts or comparison views, calculation context, and permitted export behavior.
