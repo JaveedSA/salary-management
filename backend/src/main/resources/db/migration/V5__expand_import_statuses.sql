@@ -1,3 +1,4 @@
+-- flyway:executeInTransaction=false
 PRAGMA foreign_keys = OFF;
 
 CREATE TABLE import_batch_new (

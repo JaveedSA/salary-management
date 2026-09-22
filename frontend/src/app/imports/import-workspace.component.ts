@@ -27,7 +27,12 @@ export class ImportWorkspaceComponent {
     this.busy = true;
     this.service.stage(this.file).subscribe({
       next: batch => { this.batch = batch; this.details = null; this.message = 'Upload staged. Validate it before applying changes.'; this.busy = false; },
-      error: () => { this.message = 'The upload could not be staged.'; this.busy = false; }
+      error: response => {
+        this.message = response.status === 413
+          ? 'This CSV is too large. Choose a file smaller than 8 MB.'
+          : 'The upload could not be staged.';
+        this.busy = false;
+      }
     });
   }
 

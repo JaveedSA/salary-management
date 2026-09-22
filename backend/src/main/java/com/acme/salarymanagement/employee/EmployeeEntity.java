@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import com.acme.salarymanagement.domain.EmployeeProfile;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +18,7 @@ public class EmployeeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "INTEGER")
     private Long id;
 
     @Column(name = "employee_identifier", nullable = false, unique = true)
@@ -29,9 +31,11 @@ public class EmployeeEntity {
     private String employmentStatus;
     @Column(name = "employment_type", nullable = false)
     private String employmentType;
-    @Column(name = "hire_date", nullable = false)
+    @Column(name = "hire_date", nullable = false, columnDefinition = "TEXT")
+    @Convert(converter = com.acme.salarymanagement.persistence.IsoLocalDateConverter.class)
     private LocalDate hireDate;
-    @Column(name = "termination_date")
+    @Column(name = "termination_date", columnDefinition = "TEXT")
+    @Convert(converter = com.acme.salarymanagement.persistence.IsoLocalDateConverter.class)
     private LocalDate terminationDate;
     @Column(nullable = false)
     private String country;

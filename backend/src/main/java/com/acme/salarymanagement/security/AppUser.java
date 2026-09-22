@@ -26,6 +26,7 @@ public class AppUser implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "INTEGER")
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -34,10 +35,10 @@ public class AppUser implements UserDetails {
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
-    @Column(name = "employee_id")
+    @Column(name = "employee_id", columnDefinition = "INTEGER")
     private Long employeeId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "INTEGER")
     private boolean enabled = true;
 
         @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)

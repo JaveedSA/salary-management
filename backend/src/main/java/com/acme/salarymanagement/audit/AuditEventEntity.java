@@ -15,12 +15,13 @@ public class AuditEventEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "INTEGER")
     private Long id;
-    @Column(name = "actor_user_id")
+    @Column(name = "actor_user_id", columnDefinition = "INTEGER")
     private Long actorUserId;
     @Column(name = "entity_type", nullable = false)
     private String entityType;
-    @Column(name = "entity_id", nullable = false)
+    @Column(name = "entity_id", nullable = false, columnDefinition = "INTEGER")
     private long entityId;
     @Column(nullable = false)
     private String action;
@@ -30,11 +31,11 @@ public class AuditEventEntity {
     private String newValue;
     private String reason;
     private String source;
-    @Column(name = "import_batch_id")
+    @Column(name = "import_batch_id", columnDefinition = "INTEGER")
     private Long importBatchId;
-    @Column(name = "approval_event_id")
+    @Column(name = "approval_event_id", columnDefinition = "INTEGER")
     private Long approvalEventId;
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, columnDefinition = "TEXT")
     private Instant createdAt;
 
     protected AuditEventEntity() {

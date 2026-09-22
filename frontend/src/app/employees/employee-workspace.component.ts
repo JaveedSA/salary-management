@@ -27,6 +27,7 @@ export class EmployeeWorkspaceComponent {
   selected: EmployeeProfile | null = null;
   compensation: CompensationTimelineItem[] = [];
   loading = false;
+  savingCompensation = false;
   message = '';
 
   search(): void {
@@ -58,9 +59,16 @@ export class EmployeeWorkspaceComponent {
       return;
     }
     if (!this.selected?.employeeId || this.compensationForm.invalid) { this.compensationForm.markAllAsTouched(); return; }
+    this.savingCompensation = true;
     this.service.addCompensation({ employeeId: this.selected.employeeId, ...this.compensationForm.getRawValue() }).subscribe({
-      next: () => { this.message = 'Compensation change added.'; this.select(this.selected!); },
-      error: () => this.message = 'Compensation change could not be added.'
+      next: () => {
+        this.message = 'Compensation change saved.';
+        this.savingCompensation = false;
+        this.compensationForm.reset({ compensationType: 'BASE_SALARY', amountMinorUnits: 0,
+          currencyCode: 'USD', payFrequency: 'ANNUAL', effectiveFrom: '', effectiveUntil: '', reason: '' });
+        this.select(this.selected!);
+      },
+      error: () => { this.savingCompensation = false; this.message = 'Compensation change could not be added.'; }
     });
   }
 }

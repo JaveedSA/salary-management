@@ -24,12 +24,13 @@ public class ImportBatchEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "INTEGER")
     private Long id;
 
     @Column(name = "source_filename", nullable = false)
     private String sourceFilename;
 
-    @Column(name = "uploaded_by", nullable = false)
+    @Column(name = "uploaded_by", nullable = false, columnDefinition = "INTEGER")
     private Long uploadedBy;
 
     @Enumerated(EnumType.STRING)
@@ -45,7 +46,7 @@ public class ImportBatchEntity {
     @Column(name = "rejected_rows", nullable = false)
     private int rejectedRows;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, columnDefinition = "TEXT")
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "batch", cascade = CascadeType.ALL, orphanRemoval = true)

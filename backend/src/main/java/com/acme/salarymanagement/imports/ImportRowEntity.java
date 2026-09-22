@@ -17,10 +17,11 @@ public class ImportRowEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "INTEGER")
     private Long id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "import_batch_id", nullable = false)
+    @JoinColumn(name = "import_batch_id", nullable = false, columnDefinition = "INTEGER")
     private ImportBatchEntity batch;
 
     @Column(name = "row_number", nullable = false)

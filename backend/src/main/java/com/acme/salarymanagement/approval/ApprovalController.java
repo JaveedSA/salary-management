@@ -30,6 +30,11 @@ public class ApprovalController {
         return service.decideCompensation(compensationId, decision, reason);
     }
 
+    @GetMapping("/pending")
+    public List<PendingApprovalItem> pendingCompensation() {
+        return service.pendingCompensation();
+    }
+
     @PostMapping("/imports/{batchId}")
     @ResponseStatus(HttpStatus.CREATED)
     public ApprovalEventEntity decideImport(@PathVariable long batchId,

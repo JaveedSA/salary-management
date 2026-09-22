@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ApprovalEvent, ApprovalService, AuditEvent } from './approval.service';
+import { ApprovalEvent, ApprovalService, AuditEvent, PendingApprovalItem } from './approval.service';
 
 @Component({
   standalone: true,
@@ -9,7 +9,7 @@ import { ApprovalEvent, ApprovalService, AuditEvent } from './approval.service';
   templateUrl: './approval-workspace.component.html',
   styleUrl: './approval-workspace.component.scss'
 })
-export class ApprovalWorkspaceComponent {
+export class ApprovalWorkspaceComponent implements OnInit {
   private readonly service = inject(ApprovalService);
   readonly form = inject(FormBuilder).nonNullable.group({
     compensationId: [0, [Validators.required, Validators.min(1)]],
@@ -21,14 +21,57 @@ export class ApprovalWorkspaceComponent {
   });
   event: ApprovalEvent | null = null;
   auditEvents: AuditEvent[] = [];
-  message = '';
+  pendingApprovals: PendingApprovalItem[] = [];
+  loadingPending = false;
+  queueMessage = '';
+  decisionMessage = '';
+  decisionMessageType: 'success' | 'error' | '' = '';
+  auditMessage = '';
+
+  ngOnInit(): void {
+    this.loadPendingApprovals();
+  }
+
+  loadPendingApprovals(): void {
+    this.loadingPending = true;
+    this.service.pendingCompensation().subscribe({
+      next: approvals => { this.pendingApprovals = approvals; this.loadingPending = false; },
+      error: () => { this.loadingPending = false; this.queueMessage = 'Pending approvals are unavailable for this account.'; }
+    });
+  }
+
+  selectApproval(approval: PendingApprovalItem): void {
+    this.form.reset({ compensationId: approval.compensationRecordId, decision: 'APPROVED', reason: '' });
+    this.auditForm.patchValue({ entityType: 'COMPENSATION', entityId: approval.compensationRecordId });
+    this.decisionMessage = `${approval.employeeName}'s ${this.formatType(approval.compensation.compensationType)} is selected for review.`;
+    this.decisionMessageType = '';
+  }
+
+  formatType(type: string): string {
+    return type.replace('_', ' ');
+  }
 
   decide(): void {
-    if (this.form.invalid) { this.form.markAllAsTouched(); return; }
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      this.decisionMessage = 'Complete the required fields before recording the decision.';
+      this.decisionMessageType = 'error';
+      return;
+    }
     const value = this.form.getRawValue();
     this.service.decideCompensation(value.compensationId, value.decision, value.reason).subscribe({
-      next: event => { this.event = event; this.message = 'Decision recorded and retained in approval history.'; },
-      error: () => this.message = 'The decision could not be recorded.'
+      next: event => {
+        this.event = event;
+        this.form.reset({ compensationId: 0, decision: 'APPROVED', reason: '' });
+        this.decisionMessage = 'Decision recorded and retained in approval history. Select another pending row to continue.';
+        this.decisionMessageType = 'success';
+        this.loadPendingApprovals();
+      },
+      error: response => {
+        this.decisionMessage = response.error?.message
+          || 'The decision could not be recorded. Check the selected record and try again.';
+        this.decisionMessageType = 'error';
+      }
     });
   }
 
@@ -36,8 +79,8 @@ export class ApprovalWorkspaceComponent {
     if (this.auditForm.invalid) { this.auditForm.markAllAsTouched(); return; }
     const value = this.auditForm.getRawValue();
     this.service.auditHistory(value.entityType, value.entityId).subscribe({
-      next: events => { this.auditEvents = events; this.message = 'Audit history loaded.'; },
-      error: () => this.message = 'Audit history is unavailable for this account.'
+      next: events => { this.auditEvents = events; this.auditMessage = 'Audit history loaded.'; },
+      error: () => this.auditMessage = 'Audit history is unavailable for this account.'
     });
   }
 }

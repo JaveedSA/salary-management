@@ -29,9 +29,8 @@ public class CompensationService {
     @PreAuthorize("@authorizationService.canReadCompensation(authentication, #employeeId)")
     public List<CompensationTimelineItem> history(long employeeId) {
         return repository.findByEmployeeIdOrderByEffectiveFromDesc(employeeId)
-                .stream().map(CompensationEntity::toRecord)
-                .map(compensationRecord -> new CompensationTimelineItem(compensationRecord,
-                    classify(compensationRecord, LocalDate.now())))
+                .stream().map(entity -> new CompensationTimelineItem(entity.getId(), entity.toRecord(),
+                    classify(entity.toRecord(), LocalDate.now())))
                 .toList();
     }
 
@@ -47,19 +46,39 @@ public class CompensationService {
             || compensationRecord.payFrequency() == null || compensationRecord.payFrequency().isBlank()) {
             throw new IllegalArgumentException("Invalid compensation record: check type, amount, currency, frequency, and dates");
         }
-        if (!repository.findOverlapping(compensationRecord.employeeId(), compensationRecord.compensationType(),
-                compensationRecord.effectiveFrom(), compensationRecord.effectiveUntil()).isEmpty()) {
+        String currencyCode = compensationRecord.currencyCode().toUpperCase(Locale.ROOT);
+        List<CompensationEntity> overlapping = repository.findOverlapping(compensationRecord.employeeId(),
+            compensationRecord.compensationType(), compensationRecord.effectiveFrom(),
+            compensationRecord.effectiveUntil());
+        CompensationEntity identical = overlapping.stream()
+            .filter(existing -> isIdentical(existing.toRecord(), compensationRecord, currencyCode))
+            .findFirst().orElse(null);
+        if (identical != null) {
+            return identical.toRecord();
+        }
+        if (!overlapping.isEmpty()) {
             throw new IllegalArgumentException("Compensation period overlaps an existing record");
         }
         ApprovalStatus status = compensationRecord.status() == null ? ApprovalStatus.PENDING : compensationRecord.status();
         CompensationRecord normalizedRecord = new CompensationRecord(compensationRecord.employeeId(),
             compensationRecord.compensationType(), compensationRecord.amountMinorUnits(),
-            compensationRecord.currencyCode().toUpperCase(Locale.ROOT), compensationRecord.payFrequency(),
+            currencyCode, compensationRecord.payFrequency(),
             compensationRecord.effectiveFrom(), compensationRecord.effectiveUntil(), compensationRecord.reason(), status);
         CompensationEntity saved = repository.save(new CompensationEntity(normalizedRecord));
         auditEventService.record("COMPENSATION", saved.getId(), "CREATED", null, normalizedRecord.toString(),
             normalizedRecord.reason(), "API", null, null);
         return saved.toRecord();
+    }
+
+    private static boolean isIdentical(CompensationRecord existing, CompensationRecord requested, String currencyCode) {
+        return existing.employeeId() == requested.employeeId()
+                && existing.compensationType() == requested.compensationType()
+                && existing.amountMinorUnits() == requested.amountMinorUnits()
+                && existing.currencyCode().equals(currencyCode)
+                && existing.payFrequency().equals(requested.payFrequency())
+                && existing.effectiveFrom().equals(requested.effectiveFrom())
+                && java.util.Objects.equals(existing.effectiveUntil(), requested.effectiveUntil())
+                && java.util.Objects.equals(existing.reason(), requested.reason());
     }
 
     private static CompensationPeriod classify(CompensationRecord compensationRecord, LocalDate today) {

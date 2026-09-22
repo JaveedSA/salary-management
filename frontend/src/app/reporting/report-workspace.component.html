@@ -1,15 +1,52 @@
 <main class="report-shell">
-  <header><p class="eyebrow">Compensation intelligence</p><h1>Reporting desk</h1><p class="intro">Compare selected compensation types with the calculation context visible beside every result.</p></header>
-  <form class="panel filters" [formGroup]="form" (ngSubmit)="run()">
-    <label>Country <input formControlName="country" placeholder="GB" /></label>
-    <label>Department <input formControlName="department" placeholder="Engineering" /></label>
-    <label>Types <select formControlName="compensationType"><option value="BASE_SALARY">Base salary</option><option value="BONUS">Bonus</option><option value="ALLOWANCE">Allowance</option><option value="BASE_SALARY,BONUS,ALLOWANCE">Combined selected types</option></select></label>
-    <label>From <input type="date" formControlName="effectiveFrom" /></label>
-    <label>Until <input type="date" formControlName="effectiveUntil" /></label>
-    <label>Reporting currency <input formControlName="reportingCurrency" placeholder="Optional, e.g. USD" /></label>
-    <button type="submit" [disabled]="busy">Calculate report</button>
-  </form>
-  <p class="message" *ngIf="message">{{ message }}</p>
-  <section class="panel" *ngIf="metrics.length"><div class="panel-heading"><div><span class="eyebrow">Native view</span><h2>Metrics by currency</h2></div><span>Amounts remain in native currency</span></div><div class="metric-grid"><article *ngFor="let metric of metrics"><strong>{{ metric.currencyCode }}</strong><span>{{ metric.employeeCount }} employees</span><b>{{ metric.totalMinorUnits | number }} minor units</b><small>Average {{ metric.averageMinorUnits | number:'1.0-0' }} · Median {{ metric.medianMinorUnits | number }}</small><small>{{ metric.selectedCompensationTypes }} · {{ metric.dateBasis }}</small></article></div></section>
-  <section class="panel" *ngIf="aggregates.length"><div class="panel-heading"><div><span class="eyebrow">Privacy view</span><h2>Aggregate access</h2></div><span>No individual values</span></div><div class="aggregate-list"><article *ngFor="let aggregate of aggregates"><strong>{{ aggregate.currencyCode }}</strong><span>{{ aggregate.employeeCount }} employees</span><p *ngIf="aggregate.suppressed">{{ aggregate.suppressionReason }}</p><p *ngIf="!aggregate.suppressed">Total {{ aggregate.totalMinorUnits | number }} · Average {{ aggregate.averageMinorUnits | number:'1.0-0' }}</p></article></div></section>
+    <header>
+        <p class="eyebrow">Compensation intelligence</p>
+        <h1>Reporting desk</h1>
+        <p class="intro">Compare selected compensation types with the calculation context visible beside every result.
+        </p>
+    </header>
+    <form class="panel filters" [formGroup]="form" (ngSubmit)="run()">
+        <label>Country <input formControlName="country" placeholder="GB" /></label>
+        <label>Department <input formControlName="department" placeholder="Engineering" /></label>
+        <label>Types <select formControlName="compensationType">
+                <option value="BASE_SALARY">Base salary</option>
+                <option value="BONUS">Bonus</option>
+                <option value="ALLOWANCE">Allowance</option>
+                <option value="BASE_SALARY,BONUS,ALLOWANCE">Combined selected types</option>
+            </select></label>
+        <label>From <input type="date" formControlName="effectiveFrom" /></label>
+        <label>Until <input type="date" formControlName="effectiveUntil" /></label>
+        <label>Reporting currency <input formControlName="reportingCurrency" placeholder="Optional, e.g. USD" /></label>
+        <button type="submit" [disabled]="busy">Calculate report</button>
+    </form>
+    <p class="message" *ngIf="message">{{ message }}</p>
+    <section class="panel" *ngIf="metrics.length">
+        <div class="panel-heading">
+            <div><span class="eyebrow">Native view</span>
+                <h2>Metrics by currency</h2>
+            </div><span>Amounts remain in native currency</span>
+        </div>
+        <div class="metric-grid">
+            <article *ngFor="let metric of metrics"><strong>{{ metric.currencyCode }}</strong><span>{{
+                    metric.employeeCount }} employees</span><b>{{ metric.totalMinorUnits | number }} minor
+                    units</b><small>Average {{ metric.averageMinorUnits | number:'1.0-0' }} · Median {{
+                    metric.medianMinorUnits | number }}</small><small>{{ metric.selectedCompensationTypes }} · {{
+                    metric.dateBasis }}</small></article>
+        </div>
+    </section>
+    <section class="panel" *ngIf="aggregates.length">
+        <div class="panel-heading">
+            <div><span class="eyebrow">Privacy view</span>
+                <h2>Aggregate access</h2>
+            </div><span>No individual values</span>
+        </div>
+        <div class="aggregate-list">
+            <article *ngFor="let aggregate of aggregates"><strong>{{ aggregate.currencyCode }}</strong><span>{{
+                    aggregate.employeeCount }} employees</span>
+                <p *ngIf="aggregate.suppressed">{{ aggregate.suppressionReason }}</p>
+                <p *ngIf="!aggregate.suppressed">Total {{ aggregate.totalMinorUnits | number }} · Average {{
+                    aggregate.averageMinorUnits | number:'1.0-0' }}</p>
+            </article>
+        </div>
+    </section>
 </main>

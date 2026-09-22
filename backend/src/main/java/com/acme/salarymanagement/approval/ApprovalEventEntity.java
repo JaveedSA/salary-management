@@ -19,19 +19,20 @@ public class ApprovalEventEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "INTEGER")
     private Long id;
-    @Column(name = "import_batch_id")
+    @Column(name = "import_batch_id", columnDefinition = "INTEGER")
     private Long importBatchId;
-    @Column(name = "compensation_record_id")
+    @Column(name = "compensation_record_id", columnDefinition = "INTEGER")
     private Long compensationRecordId;
-    @Column(name = "actor_user_id", nullable = false)
+    @Column(name = "actor_user_id", nullable = false, columnDefinition = "INTEGER")
     private Long actorUserId;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ApprovalStatus decision;
     @Column(name = "decision_reason")
     private String decisionReason;
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, columnDefinition = "TEXT")
     private Instant createdAt;
 
     protected ApprovalEventEntity() { }

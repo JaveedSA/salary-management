@@ -108,7 +108,16 @@ Frontend services use relative `/api/...` URLs. The current Angular configuratio
 
 The backend enforces authorization independently of Angular. HR Managers can manage compensation, apply imports, approve decisions, view audit history, and view reports. HR Executives can manage assigned employee and compensation work, review imports, and view reports but cannot apply imports or approve decisions. Employees can read their own permitted records. Admin is reserved for system administration and does not receive salary access implicitly.
 
-Development seed data creates employees and compensation records, but it does not create a default password-bearing user. This repository currently has no user-registration or user-provisioning API, so a login account must be provisioned through the deployment or database administration process before attempting to log in. Never document or commit real passwords in the repository.
+Development seed data creates employees, compensation records, and local-only accounts for each role. After Flyway runs, use these credentials locally:
+
+| Role | Username | Password |
+| --- | --- | --- |
+| Admin | `admin` | `AdminLocal123!` |
+| HR Manager | `manager` | `ManagerLocal123!` |
+| HR Executive | `executive` | `ExecutiveLocal123!` |
+| Employee | `employee` | `EmployeeLocal123!` |
+
+The employee account is linked to `ACME-10001`. Do not use these seeded passwords outside local development; replace or remove migrations V6 and V7 for shared environments.
 
 Use `/reports` for filtered native and normalized compensation reporting, and `/approvals` for compensation decisions and audit timelines. Aggregate populations below five employees are suppressed.
 

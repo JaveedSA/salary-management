@@ -55,6 +55,6 @@
 - [x] 7.1 Define the production import template, required fields, country/currency rules, privacy threshold, and initial approval policy.
 - [x] 7.2 Add database indexes and query tests for employee lookup, effective-date selection, reporting dimensions, and audit history at the 10,000-employee target.
 - [x] 7.3 Add API, service, repository, and Angular component tests for the acceptance scenarios in all capability specifications.
-- [ ] 7.4 Add end-to-end tests covering login, role restrictions, employee compensation changes, import confirmation, reporting, approval, and audit history.
+- [x] 7.4 Add end-to-end tests covering login, role restrictions, employee compensation changes, import confirmation, reporting, approval, and audit history.
 - [x] 7.5 Document local setup, SQLite backup and restore, configuration, supported import formats, authorization model, and cutover rollback procedure.
 - [ ] 7.6 Perform a staged pilot and final spreadsheet migration, reconcile results, and record the cutover evidence before making the application the operational source of truth.

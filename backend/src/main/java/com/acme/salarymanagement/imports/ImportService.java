@@ -172,6 +172,11 @@ public class ImportService {
         } catch (java.time.format.DateTimeParseException exception) {
             errors.add("Effective date must use ISO format");
         }
+        try {
+            java.time.LocalDate.parse(values[5]);
+        } catch (java.time.format.DateTimeParseException exception) {
+            errors.add("Hire date must use ISO format");
+        }
         if (!values[14].matches("[A-Za-z]{3}")) errors.add("Currency must be an ISO 4217 code");
         String key = values[0] + "|" + values[12] + "|" + values[16];
         if (!keys.add(key)) errors.add("Duplicate employee, type, and effective date");

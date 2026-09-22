@@ -1,8 +1,61 @@
 <main class="approval-shell">
-  <header><p class="eyebrow">Governance</p><h1>Approvals and audit</h1><p class="intro">Record decisions with reasons and inspect the chronological history of sensitive changes.</p></header>
-  <section class="columns">
-    <form class="panel" [formGroup]="form" (ngSubmit)="decide()"><span class="eyebrow">Decision form</span><h2>Compensation change</h2><label>Compensation record ID<input type="number" formControlName="compensationId" /></label><label>Decision<select formControlName="decision"><option value="APPROVED">Approve</option><option value="REJECTED">Reject</option><option value="REVERSED">Reverse</option></select></label><label>Reason<textarea formControlName="reason" rows="4"></textarea></label><button type="submit">Record decision</button></form>
-    <form class="panel" [formGroup]="auditForm" (ngSubmit)="loadAudit()"><span class="eyebrow">Audit timeline</span><h2>Inspect history</h2><label>Entity type<input formControlName="entityType" /></label><label>Entity ID<input type="number" formControlName="entityId" /></label><button type="submit">Load history</button><ol class="timeline"><li *ngFor="let audit of auditEvents"><strong>{{ audit.action }}</strong><span>{{ audit.createdAt | date:'medium' }} · {{ audit.source }}</span><p>{{ audit.reason || 'No reason supplied' }}</p></li></ol></form>
-  </section>
-  <p class="message" *ngIf="message">{{ message }}</p>
+    <header>
+        <p class="eyebrow">Governance</p>
+        <h1>Approvals and audit</h1>
+        <p class="intro">Record decisions with reasons and inspect the chronological history of sensitive changes.</p>
+    </header>
+    <section class="panel pending-panel">
+        <div class="section-heading">
+            <div><span class="eyebrow">Manager queue</span>
+                <h2>Pending compensation approvals</h2>
+            </div><button type="button" (click)="loadPendingApprovals()">Refresh</button>
+        </div>
+        <p class="muted">Select a row to review it. The employee name and employee ID are shown here, so you do not need
+            to know the internal record ID.</p>
+        <p *ngIf="loadingPending" class="muted">Loading pending approvals...</p>
+        <p *ngIf="queueMessage" class="feedback error">{{ queueMessage }}</p>
+        <p *ngIf="!loadingPending && !pendingApprovals.length" class="empty">There are no compensation approvals waiting
+            for your decision.</p>
+        <div class="approval-table" *ngIf="pendingApprovals.length">
+            <div class="approval-row approval-header"><span>Employee</span><span>Change</span><span>Effective
+                    from</span><span>Action</span></div>
+            <div class="approval-row" *ngFor="let approval of pendingApprovals"><span><strong>{{ approval.employeeName
+                        }}</strong><small>{{ approval.employeeIdentifier }}</small></span><span><strong>{{
+                        formatType(approval.compensation.compensationType) }}</strong><small>{{
+                        approval.compensation.amountMinorUnits / 100 | number:'1.2-2' }} {{
+                        approval.compensation.currencyCode }} · {{ approval.compensation.reason || 'No reason'
+                        }}</small></span><span>{{ approval.compensation.effectiveFrom }}<small>Record {{
+                        approval.compensationRecordId }}</small></span><button type="button"
+                    (click)="selectApproval(approval)">Review</button></div>
+        </div>
+    </section>
+    <section class="columns">
+        <form class="panel" [formGroup]="form" (ngSubmit)="decide()"><span class="eyebrow">Decision form</span>
+            <h2>Record decision</h2><label>Selected compensation record<input type="number"
+                    formControlName="compensationId" /></label>
+            <p class="muted">Choose Review in the pending approvals table above. The number is filled in automatically.
+            </p><label>Decision<select formControlName="decision">
+                    <option value="APPROVED">Approve</option>
+                    <option value="REJECTED">Reject</option>
+                    <option value="REVERSED">Reverse</option>
+                </select></label><label for="decision-reason">Reason <span class="required-marker">*</span><textarea id="decision-reason" formControlName="reason" rows="4" [class.invalid-field]="form.controls.reason.touched && form.controls.reason.invalid" aria-required="true"></textarea><span *ngIf="form.controls.reason.touched && form.controls.reason.hasError('required')" class="field-error">Reason is required.</span></label><button
+                type="submit">Record decision</button>
+            <p *ngIf="decisionMessage" class="feedback" [class.success]="decisionMessageType === 'success'"
+                [class.error]="decisionMessageType === 'error'">{{ decisionMessage }}</p>
+        </form>
+        <form class="panel" [formGroup]="auditForm" (ngSubmit)="loadAudit()"><span class="eyebrow">Audit timeline</span>
+            <h2>Inspect history</h2><label>Entity type<input formControlName="entityType" /></label><label>Entity
+                ID<input type="number" formControlName="entityId" /></label>
+            <p class="muted">Choose Review above to fill this compensation record ID automatically, then load its
+                history.</p><button type="submit">Load history</button>
+            <p *ngIf="auditMessage" class="feedback" [class.success]="!auditMessage.includes('unavailable')"
+                [class.error]="auditMessage.includes('unavailable')">{{ auditMessage }}</p>
+            <ol class="timeline">
+                <li *ngFor="let audit of auditEvents"><strong>{{ audit.action }}</strong><span>{{ audit.createdAt |
+                        date:'medium' }} · {{ audit.source }}</span>
+                    <p>{{ audit.reason || 'No reason supplied' }}</p>
+                </li>
+            </ol>
+        </form>
+    </section>
 </main>

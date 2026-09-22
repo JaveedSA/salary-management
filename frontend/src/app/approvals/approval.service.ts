@@ -26,6 +26,22 @@ export interface AuditEvent {
   createdAt: string;
 }
 
+export interface PendingApprovalItem {
+  compensationRecordId: number;
+  employeeIdentifier: string;
+  employeeName: string;
+  compensation: {
+    compensationType: string;
+    amountMinorUnits: number;
+    currencyCode: string;
+    payFrequency: string;
+    effectiveFrom: string;
+    effectiveUntil?: string;
+    reason?: string;
+    status: string;
+  };
+}
+
 @Injectable({ providedIn: 'root' })
 export class ApprovalService {
   private readonly http = inject(HttpClient);
@@ -37,5 +53,9 @@ export class ApprovalService {
 
   auditHistory(entityType: string, entityId: number) {
     return this.http.get<AuditEvent[]>(`/api/audit/${entityType}/${entityId}`);
+  }
+
+  pendingCompensation() {
+    return this.http.get<PendingApprovalItem[]>('/api/approvals/pending');
   }
 }

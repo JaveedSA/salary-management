@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.acme.salarymanagement.domain.CompensationType;
+import com.acme.salarymanagement.domain.ApprovalStatus;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,6 +13,8 @@ import org.springframework.data.repository.query.Param;
 public interface CompensationRepository extends JpaRepository<CompensationEntity, Long> {
 
     List<CompensationEntity> findByEmployeeIdOrderByEffectiveFromDesc(long employeeId);
+
+        List<CompensationEntity> findByStatusOrderByEffectiveFromAsc(ApprovalStatus status);
 
     @Query("select c from CompensationEntity c where c.employeeId = :employeeId and c.compensationType = :type "
             + "and c.effectiveFrom <= coalesce(:effectiveUntil, c.effectiveFrom) "

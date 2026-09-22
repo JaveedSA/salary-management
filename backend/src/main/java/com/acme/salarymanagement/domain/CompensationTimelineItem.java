@@ -1,4 +1,5 @@
 package com.acme.salarymanagement.domain;
 
-public record CompensationTimelineItem(CompensationRecord compensation, CompensationPeriod period) {
+public record CompensationTimelineItem(long compensationRecordId, CompensationRecord compensation,
+	CompensationPeriod period) {
 }

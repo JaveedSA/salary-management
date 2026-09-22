@@ -23,6 +23,7 @@ export type CompensationType = 'BASE_SALARY' | 'BONUS' | 'ALLOWANCE';
 export type CompensationPeriod = 'HISTORICAL' | 'CURRENT' | 'FUTURE';
 
 export interface CompensationTimelineItem {
+  compensationRecordId: number;
   compensation: {
     compensationType: CompensationType;
     amountMinorUnits: number;

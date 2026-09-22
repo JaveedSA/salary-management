@@ -7,6 +7,7 @@ import com.acme.salarymanagement.domain.CompensationRecord;
 import com.acme.salarymanagement.domain.CompensationType;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -21,22 +22,25 @@ public class CompensationEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "INTEGER")
     private Long id;
 
-    @Column(name = "employee_id", nullable = false)
+    @Column(name = "employee_id", nullable = false, columnDefinition = "INTEGER")
     private long employeeId;
     @Enumerated(EnumType.STRING)
     @Column(name = "compensation_type", nullable = false)
     private CompensationType compensationType;
-    @Column(name = "amount_minor_units", nullable = false)
+    @Column(name = "amount_minor_units", nullable = false, columnDefinition = "INTEGER")
     private long amountMinorUnits;
     @Column(name = "currency_code", nullable = false)
     private String currencyCode;
     @Column(name = "pay_frequency", nullable = false)
     private String payFrequency;
-    @Column(name = "effective_from", nullable = false)
+    @Column(name = "effective_from", nullable = false, columnDefinition = "TEXT")
+    @Convert(converter = com.acme.salarymanagement.persistence.IsoLocalDateConverter.class)
     private LocalDate effectiveFrom;
-    @Column(name = "effective_until")
+    @Column(name = "effective_until", columnDefinition = "TEXT")
+    @Convert(converter = com.acme.salarymanagement.persistence.IsoLocalDateConverter.class)
     private LocalDate effectiveUntil;
     private String reason;
     @Enumerated(EnumType.STRING)

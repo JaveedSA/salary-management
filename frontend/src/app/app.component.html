@@ -1,1 +1,22 @@
+<header class="site-header" *ngIf="auth.isAuthenticated()">
+	<a class="brand" routerLink="/dashboard" aria-label="ACME Compensation home">
+		<span class="brand-mark">A</span>
+		<span><strong>ACME</strong><small>COMPENSATION</small></span>
+	</a>
+
+	<nav class="primary-nav" aria-label="Primary navigation">
+		<a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Overview</a>
+		<a *ngIf="auth.hasAnyRole('HR_MANAGER', 'HR_EXECUTIVE', 'EMPLOYEE')" routerLink="/employees" routerLinkActive="active">Employees</a>
+		<a *ngIf="auth.hasAnyRole('HR_MANAGER', 'HR_EXECUTIVE')" routerLink="/imports" routerLinkActive="active">Imports</a>
+		<a *ngIf="auth.hasAnyRole('HR_MANAGER', 'HR_EXECUTIVE')" routerLink="/reports" routerLinkActive="active">Reports</a>
+		<a *ngIf="auth.hasAnyRole('HR_MANAGER')" routerLink="/approvals" routerLinkActive="active">Approvals</a>
+	</nav>
+
+	<div class="account-area">
+		<span class="account-name">{{ auth.user()?.username }}</span>
+		<span class="account-role">{{ auth.user()?.roles?.[0] }}</span>
+		<button class="sign-out" type="button" (click)="auth.logout()">Sign out</button>
+	</div>
+</header>
+
 <router-outlet />
