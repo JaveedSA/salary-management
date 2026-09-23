@@ -109,6 +109,20 @@ button {
     font: inherit;
 }
 
+.result-count {
+    margin: 0 0 .6rem;
+    color: #65706a;
+    font-size: .75rem;
+}
+
+.employee-list {
+    max-height: min(62vh, 680px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border-top: 1px solid #d3d5ca;
+    scrollbar-width: thin;
+}
+
 .employee-row {
     display: grid;
     gap: .35rem;

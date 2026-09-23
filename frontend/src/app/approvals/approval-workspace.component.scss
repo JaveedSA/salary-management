@@ -77,8 +77,22 @@ h2 {
 }
 
 .approval-table {
-    overflow-x: auto;
+    max-height: min(62vh, 680px);
+    overflow: auto;
+    overscroll-behavior: contain;
     margin-top: 20px;
+}
+
+.approval-search {
+    display: block;
+    max-width: 520px;
+    margin: 18px 0 0;
+}
+
+.result-count {
+    color: #687981;
+    font-size: .78rem;
+    margin: 10px 0 0;
 }
 
 .approval-row {

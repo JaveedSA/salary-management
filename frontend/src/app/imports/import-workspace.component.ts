@@ -17,6 +17,10 @@ export class ImportWorkspaceComponent {
   busy = false;
   message = '';
 
+  get rejectedRows() {
+    return this.details?.rows.filter(row => row.validationStatus === 'REJECTED') ?? [];
+  }
+
   choose(event: Event): void {
     this.file = (event.target as HTMLInputElement).files?.[0] ?? null;
     this.message = this.file ? `${this.file.name} is ready to stage.` : '';

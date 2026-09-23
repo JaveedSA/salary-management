@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title>ACME</title>
+  <rect width="64" height="64" rx="12" fill="#173f35"/>
+  <path d="M32 10 13 52h10l3.8-9h10.4l3.8 9h10L32 10Zm0 16.2 3.5 8.8h-7l3.5-8.8Z" fill="#e5b85c"/>
+</svg>

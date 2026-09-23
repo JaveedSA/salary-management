@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CompensationAggregateMetric, CompensationMetric } from './report.models';
 import { ReportFilters, ReportService } from './report.service';
+import { COUNTRIES, REPORTING_CURRENCIES } from '../shared/reference-data';
 
 @Component({
   standalone: true,
@@ -12,6 +13,8 @@ import { ReportFilters, ReportService } from './report.service';
 })
 export class ReportWorkspaceComponent {
   private readonly service = inject(ReportService);
+  readonly countries = COUNTRIES;
+  readonly currencies = REPORTING_CURRENCIES;
   readonly form = inject(FormBuilder).nonNullable.group({
     country: [''], department: [''], compensationType: ['BASE_SALARY', Validators.required],
     effectiveFrom: [''], effectiveUntil: [''], reportingCurrency: ['']

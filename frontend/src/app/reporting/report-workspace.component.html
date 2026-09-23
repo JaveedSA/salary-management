@@ -6,7 +6,7 @@
         </p>
     </header>
     <form class="panel filters" [formGroup]="form" (ngSubmit)="run()">
-        <label>Country <input formControlName="country" placeholder="GB" /></label>
+        <label>Country <input formControlName="country" list="report-country-options" placeholder="GB" /></label>
         <label>Department <input formControlName="department" placeholder="Engineering" /></label>
         <label>Types <select formControlName="compensationType">
                 <option value="BASE_SALARY">Base salary</option>
@@ -16,7 +16,7 @@
             </select></label>
         <label>From <input type="date" formControlName="effectiveFrom" /></label>
         <label>Until <input type="date" formControlName="effectiveUntil" /></label>
-        <label>Reporting currency <input formControlName="reportingCurrency" placeholder="Optional, e.g. USD" /></label>
+        <label>Reporting currency <input formControlName="reportingCurrency" list="report-currency-options" placeholder="Optional, e.g. USD" /></label>
         <button type="submit" [disabled]="busy">Calculate report</button>
     </form>
     <p class="message" *ngIf="message">{{ message }}</p>
@@ -50,3 +50,5 @@
         </div>
     </section>
 </main>
+<datalist id="report-country-options"><option *ngFor="let country of countries" [value]="country.code">{{ country.name }} ({{ country.code }})</option></datalist>
+<datalist id="report-currency-options"><option *ngFor="let currency of currencies" [value]="currency.code">{{ currency.name }} ({{ currency.code }})</option></datalist>

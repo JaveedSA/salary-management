@@ -1,158 +1,90 @@
-# salary-management
+# ACME Salary Management
 
-ACME salary-management is an Angular 17 frontend backed by a Spring Boot 3.3 API and a local SQLite database. The backend owns authentication, authorization, validation, Flyway migrations, imports, reporting, approvals, and audit history.
+ACME Salary Management is a role-aware application for managing employee profiles, compensation changes, imports, approvals, reporting, and audit history.
 
-## Prerequisites
+It gives HR teams one place to maintain compensation data, validate large employee imports, review changes before they take effect, and understand compensation across the organization.
 
-- Java 17
-- Maven 3.8 or later
-- Node.js and npm compatible with Angular CLI 17
-- PowerShell on Windows, or equivalent shell commands on another operating system
+## What It Provides
 
-Maven must be available on the developer's `PATH`. The commands below run from the `backend` directory and use the repository's standard Maven project configuration.
+### Employee and compensation management
 
-## Start the backend and database
+- Maintain employee profiles and organizational information.
+- Record base salary, bonus, and allowance changes.
+- Track effective dates, currencies, pay frequency, reasons, and approval status.
+- Preserve compensation history instead of overwriting past records.
 
-Open a terminal in the repository root and create the local database directory:
+### Controlled imports
 
-```powershell
-New-Item -ItemType Directory -Force backend/data | Out-Null
-```
+- Upload employee and compensation data from CSV files.
+- Stage and validate data before changing authoritative records.
+- Review rejected rows and row-level validation errors.
+- Process large files, including the 10,000-employee sample in `docs`.
+- Apply an approved batch as one controlled operation.
 
-Run backend tests:
+### Approvals and audit
 
-```powershell
-Push-Location backend
-mvn test
-Pop-Location
-```
+- Give HR Managers a queue of pending compensation changes.
+- Require a decision reason for approvals, rejections, and reversals.
+- Prevent invalid status transitions.
+- Record approval and audit events for traceability.
 
-Start the API. Flyway creates and upgrades the SQLite database automatically on startup:
+### Reporting
 
-```powershell
-Push-Location backend
-mvn spring-boot:run
-```
+- Filter compensation by country, department, level, type, currency, and effective date.
+- View native-currency and normalized-currency results.
+- Protect small populations with aggregate suppression.
 
-The default database file is `backend/data/salary-management.db`. The default API URL is `http://localhost:8080`. Verify that the application is running with:
+## Roles
 
-```powershell
-Invoke-WebRequest http://localhost:8080/actuator/health
-```
+| Role | Primary access |
+| --- | --- |
+| HR Manager | Manage employees and compensation, review imports, approve changes, view reports and audit history |
+| HR Executive | Manage assigned employee and compensation work, review imports, view reports |
+| Employee | View permitted personal employee and compensation information |
+| Administrator | Local system administration account; salary access is not granted implicitly |
 
-The schema migrations are in `backend/src/main/resources/db/migration`. They create the employee, compensation, import, approval, audit, user, and role tables, add indexes, and insert development employee and compensation records. Do not edit an existing migration after it has been applied; add a new `V{number}__description.sql` migration instead.
+## Main Screens
 
-## Database configuration
+| Screen | Purpose |
+| --- | --- |
+| `/dashboard` | Overview and workspace navigation |
+| `/employees` | Employee directory, profiles, and compensation history |
+| `/imports` | CSV staging, validation, rejected-row review, and application |
+| `/reports` | Compensation filters, metrics, and normalized reporting |
+| `/approvals` | Pending decisions and audit history |
 
-The backend reads these environment variables:
+## System Shape
 
-| Variable | Default | Purpose |
-| --- | --- | --- |
-| `SALARY_DB_PATH` | `./data/salary-management.db` when running from `backend` | SQLite database path |
-| `SERVER_PORT` | `8080` | Spring Boot API port |
+The application is built as a two-part web application:
 
-Example using a database outside the source tree:
+- **Frontend:** Angular 17 standalone components and reactive forms.
+- **Backend:** Spring Boot 3.3 REST API with Spring Security and Spring Data JPA.
+- **Persistence:** SQLite for local development, managed through Flyway migrations.
+- **Data controls:** Server-side authorization, validation, effective-dated records, approval status rules, and audit events.
 
-```powershell
-$env:SALARY_DB_PATH = 'D:\salary-data\salary-management.db'
-$env:SERVER_PORT = '8081'
-mvn spring-boot:run
-```
+## Local Development
 
-SQLite is the only runtime database configured by this project. Stop the backend before copying the database so that no write is in progress.
+For prerequisites, startup commands, database behavior, local accounts, sample imports, and troubleshooting, see [LOCAL_SETUP.md](LOCAL_SETUP.md).
 
-## Inspect, back up, and restore SQLite
-
-If the SQLite command-line tool is installed, inspect the schema and migration history with:
-
-```powershell
-sqlite3 backend/data/salary-management.db ".tables"
-sqlite3 backend/data/salary-management.db "SELECT version, description, success FROM flyway_schema_history ORDER BY installed_rank;"
-sqlite3 backend/data/salary-management.db "SELECT employee_identifier, full_name FROM employee ORDER BY employee_identifier;"
-```
-
-Back up the database while the backend is stopped:
-
-```powershell
-New-Item -ItemType Directory -Force backups | Out-Null
-Copy-Item backend/data/salary-management.db "backups/salary-management-$(Get-Date -Format yyyyMMdd-HHmmss).db"
-```
-
-Restore a backup while the backend is stopped:
-
-```powershell
-Copy-Item backups/salary-management-YYYYMMDD-HHMMSS.db backend/data/salary-management.db -Force
-```
-
-Keep backups outside `backend/data`, protect them as compensation data, and test a restore before relying on a backup for recovery. Flyway checks the restored database and applies any newer migrations when the backend starts.
-
-## Start the frontend
-
-In a second terminal:
-
-```powershell
-Push-Location frontend
-npm install
-npm start
-```
-
-The Angular development server is available at `http://localhost:4200`. Build the production bundle with:
-
-```powershell
-npm run build
-```
-
-Frontend services use relative `/api/...` URLs. The current Angular configuration does not include a development proxy or CORS configuration, so use the frontend with the same-origin deployment setup, or add a local reverse proxy that forwards `/api` to `http://localhost:8080` before using the standalone Angular dev server for browser workflows.
-
-## Authentication and application workflow
-
-The backend enforces authorization independently of Angular. HR Managers can manage compensation, apply imports, approve decisions, view audit history, and view reports. HR Executives can manage assigned employee and compensation work, review imports, and view reports but cannot apply imports or approve decisions. Employees can read their own permitted records. Admin is reserved for system administration and does not receive salary access implicitly.
-
-Development seed data creates employees, compensation records, and local-only accounts for each role. After Flyway runs, use these credentials locally:
+The local development accounts are:
 
 | Role | Username | Password |
 | --- | --- | --- |
-| Admin | `admin` | `AdminLocal123!` |
+| Administrator | `admin` | `AdminLocal123!` |
 | HR Manager | `manager` | `ManagerLocal123!` |
 | HR Executive | `executive` | `ExecutiveLocal123!` |
 | Employee | `employee` | `EmployeeLocal123!` |
 
-The employee account is linked to `ACME-10001`. Do not use these seeded passwords outside local development; replace or remove migrations V6 and V7 for shared environments.
+These credentials are for local development only.
 
-Use `/reports` for filtered native and normalized compensation reporting, and `/approvals` for compensation decisions and audit timelines. Aggregate populations below five employees are suppressed.
+## Sample Data and Documentation
 
-## Import the 10,000-employee sample
+- [10,000-employee sample](docs/sample-10000-employees.csv)
+- [100-row mixed-validity sample](docs/sample-100-employees-mixed.csv)
+- [Local setup guide](LOCAL_SETUP.md)
 
-The generated sample file is [docs/sample-10000-employees.csv](docs/sample-10000-employees.csv). It contains 10,000 unique employees and one base-salary row per employee. The production contract and approval policy are documented in [docs/production-import-template.md](docs/production-import-template.md).
+## Quality Checks
 
-The supported workflow is:
+The project includes backend unit tests, Angular tests, and Playwright browser workflows covering authentication, role-aware navigation, employee compensation, reporting, approvals, and audit history.
 
-1. Upload the CSV to create a staged batch.
-2. Validate the batch and review row-level errors and counts.
-3. Obtain HR Manager approval for the pending compensation changes.
-4. Explicitly apply the approved batch.
-5. Reconcile employee counts, currencies, totals, and effective dates before treating the database as authoritative.
-
-Uploads are staged before authoritative records change. Rejected rows can be exported without modifying employee or compensation records. A failed application rolls back the transaction and marks the batch failed. After cutover, correct data with a new effective-dated record or an audited reversal; do not delete imported history.
-
-## Frontend and backend tests
-
-Run backend tests from `backend`:
-
-```powershell
-mvn test
-```
-
-Run Angular tests from `frontend`:
-
-```powershell
-npm test -- --watch=false --browsers=ChromeHeadless
-```
-
-Run browser workflow tests with the Angular server running in another terminal:
-
-```powershell
-npm run e2e
-```
-
-The Playwright workflows mock API responses and cover login, role-aware navigation, employee compensation, reporting, approval, and audit history. Install a local Chrome browser before running them.
+Run the checks described in [LOCAL_SETUP.md](LOCAL_SETUP.md) after starting the required local services.

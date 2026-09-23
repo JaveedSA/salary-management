@@ -3,10 +3,14 @@ package com.acme.salarymanagement.imports;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.acme.salarymanagement.compensation.CompensationRepository;
 import com.acme.salarymanagement.compensation.CompensationEntity;
@@ -70,10 +74,17 @@ public class ImportService {
     public ImportBatchSummary validate(long batchId) {
         ImportBatchEntity batch = repository.findById(batchId).orElseThrow();
         Set<String> keys = new HashSet<>();
+        Set<String> employeeIdentifiers = batch.getRows().stream()
+            .map(row -> row.getRawData().split(",", -1))
+            .filter(values -> values.length > 0 && !values[0].isBlank())
+            .map(values -> values[0])
+            .collect(Collectors.toSet());
+        Map<String, EmployeeEntity> existingEmployees = employeeRepository
+            .findMapByEmployeeIdentifierIn(employeeIdentifiers);
         int accepted = 0;
         int rejected = 0;
         for (ImportRowEntity row : batch.getRows()) {
-            List<String> errors = validateRow(row.getRawData().split(",", -1), keys);
+            List<String> errors = validateRow(row.getRawData().split(",", -1), keys, existingEmployees);
             if (errors.isEmpty()) {
                 row.accept();
                 accepted++;
@@ -115,9 +126,15 @@ public class ImportService {
             throw new IllegalArgumentException("Only fully validated or approved batches can be applied");
         }
         try {
-            for (ImportRowEntity row : batch.getRows()) {
-                applyRow(row.getRawData().split(",", -1));
+            List<String[]> rows = batch.getRows().stream()
+                    .map(row -> row.getRawData().split(",", -1))
+                    .toList();
+            Map<String, EmployeeEntity> employees = loadEmployeesForApply(rows);
+            List<CompensationEntity> compensations = new ArrayList<>(rows.size());
+            for (String[] values : rows) {
+                compensations.add(toCompensation(values, employees.get(values[0])));
             }
+            compensationRepository.saveAll(compensations);
             batch.markApplied();
             ImportBatchEntity saved = repository.save(batch);
             auditEventService.record("IMPORT_BATCH", saved.getId(), "APPLIED", "VALIDATED", saved.getStatus().name(),
@@ -129,22 +146,36 @@ public class ImportService {
         }
     }
 
-    private void applyRow(String[] values) {
-        if (values.length != 17) {
-            throw new IllegalArgumentException("Validated row has an invalid column count");
+    private Map<String, EmployeeEntity> loadEmployeesForApply(List<String[]> rows) {
+        Set<String> identifiers = rows.stream().map(values -> values[0]).collect(Collectors.toSet());
+        Map<String, EmployeeEntity> employees = new LinkedHashMap<>(
+                employeeRepository.findMapByEmployeeIdentifierIn(identifiers));
+        List<EmployeeEntity> newEmployees = new ArrayList<>();
+        for (String[] values : rows) {
+            if (!employees.containsKey(values[0])) {
+                EmployeeEntity employee = new EmployeeEntity(new EmployeeProfile(values[0], values[1], values[2],
+                        values[3], values[4], java.time.LocalDate.parse(values[5]), null, values[6], values[7],
+                        null, values[8], null, values[9], values[10], values[11], null, null, null));
+                employees.put(values[0], employee);
+                newEmployees.add(employee);
+            }
         }
-        EmployeeEntity employee = employeeRepository.findByEmployeeIdentifier(values[0]).orElseGet(() ->
-                new EmployeeEntity(new EmployeeProfile(values[0], values[1], values[2], values[3], values[4],
-                        java.time.LocalDate.parse(values[5]), null, values[6], values[7], null, values[8], null,
-                        values[9], values[10], values[11], null, null, null)));
-        employeeRepository.save(employee);
-        CompensationType type = CompensationType.valueOf(values[12].toUpperCase(Locale.ROOT));
-        compensationRepository.save(new CompensationEntity(new CompensationRecord(employee.getId(), type,
-                Long.parseLong(values[13]), values[14].toUpperCase(Locale.ROOT), values[15],
-                java.time.LocalDate.parse(values[16]), null, "Imported batch", ApprovalStatus.PENDING)));
+        employeeRepository.saveAll(newEmployees);
+        return employees;
     }
 
-    private List<String> validateRow(String[] values, Set<String> keys) {
+    private CompensationEntity toCompensation(String[] values, EmployeeEntity employee) {
+        if (values.length != 17 || employee == null) {
+            throw new IllegalArgumentException("Validated row has an invalid employee or column count");
+        }
+        CompensationType type = CompensationType.valueOf(values[12].toUpperCase(Locale.ROOT));
+        return new CompensationEntity(new CompensationRecord(employee.getId(), type,
+                Long.parseLong(values[13]), values[14].toUpperCase(Locale.ROOT), values[15],
+                java.time.LocalDate.parse(values[16]), null, "Imported batch", ApprovalStatus.PENDING));
+    }
+
+        private List<String> validateRow(String[] values, Set<String> keys,
+            Map<String, EmployeeEntity> existingEmployees) {
         List<String> errors = new java.util.ArrayList<>();
         if (values.length != 17) {
             errors.add("Expected 17 columns");
@@ -181,9 +212,9 @@ public class ImportService {
         String key = values[0] + "|" + values[12] + "|" + values[16];
         if (!keys.add(key)) errors.add("Duplicate employee, type, and effective date");
         if (type != null && effectiveFrom != null) {
-            var employee = employeeRepository.findByEmployeeIdentifier(values[0]);
-            if (employee.isPresent() && !compensationRepository
-                    .findOverlapping(employee.get().getId(), type, effectiveFrom, null).isEmpty()) {
+                EmployeeEntity employee = existingEmployees.get(values[0]);
+                if (employee != null && !compensationRepository
+                    .findOverlapping(employee.getId(), type, effectiveFrom, null).isEmpty()) {
                 errors.add("Compensation period overlaps an existing record");
             }
         }

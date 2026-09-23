@@ -10,16 +10,19 @@
                 <h2>Pending compensation approvals</h2>
             </div><button type="button" (click)="loadPendingApprovals()">Refresh</button>
         </div>
-        <p class="muted">Select a row to review it. The employee name and employee ID are shown here, so you do not need
-            to know the internal record ID.</p>
+        <!-- <p class="muted">Select a row to review it. The employee name and employee ID are shown here.</p> -->
         <p *ngIf="loadingPending" class="muted">Loading pending approvals...</p>
         <p *ngIf="queueMessage" class="feedback error">{{ queueMessage }}</p>
         <p *ngIf="!loadingPending && !pendingApprovals.length" class="empty">There are no compensation approvals waiting
             for your decision.</p>
-        <div class="approval-table" *ngIf="pendingApprovals.length">
+        <label *ngIf="pendingApprovals.length" class="mt-2 approval-search">Find by employee name or ID<input
+                [formControl]="approvalSearch" placeholder="e.g. Maya Chen or ACME-10001" /></label>
+        <p *ngIf="pendingApprovals.length" class="result-count">Showing {{ filteredPendingApprovals.length | number }} of
+            {{ pendingApprovals.length | number }} pending approvals</p>
+        <div class="approval-table" *ngIf="filteredPendingApprovals.length">
             <div class="approval-row approval-header"><span>Employee</span><span>Change</span><span>Effective
                     from</span><span>Action</span></div>
-            <div class="approval-row" *ngFor="let approval of pendingApprovals"><span><strong>{{ approval.employeeName
+            <div class="approval-row" *ngFor="let approval of filteredPendingApprovals"><span><strong>{{ approval.employeeName
                         }}</strong><small>{{ approval.employeeIdentifier }}</small></span><span><strong>{{
                         formatType(approval.compensation.compensationType) }}</strong><small>{{
                         approval.compensation.amountMinorUnits / 100 | number:'1.2-2' }} {{
@@ -28,6 +31,8 @@
                         approval.compensationRecordId }}</small></span><button type="button"
                     (click)="selectApproval(approval)">Review</button></div>
         </div>
+                <p *ngIf="pendingApprovals.length && !filteredPendingApprovals.length" class="empty">No pending approvals match
+                    that employee name or ID.</p>
     </section>
     <section class="columns">
         <form class="panel" [formGroup]="form" (ngSubmit)="decide()"><span class="eyebrow">Decision form</span>
@@ -38,8 +43,12 @@
                     <option value="APPROVED">Approve</option>
                     <option value="REJECTED">Reject</option>
                     <option value="REVERSED">Reverse</option>
-                </select></label><label for="decision-reason">Reason <span class="required-marker">*</span><textarea id="decision-reason" formControlName="reason" rows="4" [class.invalid-field]="form.controls.reason.touched && form.controls.reason.invalid" aria-required="true"></textarea><span *ngIf="form.controls.reason.touched && form.controls.reason.hasError('required')" class="field-error">Reason is required.</span></label><button
-                type="submit">Record decision</button>
+                </select></label><label for="decision-reason">Reason <span class="required-marker">*</span><textarea
+                    id="decision-reason" formControlName="reason" rows="4"
+                    [class.invalid-field]="form.controls.reason.touched && form.controls.reason.invalid"
+                    aria-required="true"></textarea><span
+                    *ngIf="form.controls.reason.touched && form.controls.reason.hasError('required')"
+                    class="field-error">Reason is required.</span></label><button type="submit">Record decision</button>
             <p *ngIf="decisionMessage" class="feedback" [class.success]="decisionMessageType === 'success'"
                 [class.error]="decisionMessageType === 'error'">{{ decisionMessage }}</p>
         </form>

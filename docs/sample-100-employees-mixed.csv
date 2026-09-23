@@ -1,0 +1,101 @@
+employee_identifier,full_name,work_email,employment_status,employment_type,hire_date,country,location,department,job_title,job_family,job_level,compensation_type,amount_minor_units,currency_code,pay_frequency,effective_from
+MIX-0001,Test Employee 0001,test.0001@example.test,ACTIVE,FULL_TIME,2020-01-02,US,New York,Engineering,Software Engineer,Software Engineering,L2,BASE_SALARY,4500000,USD,ANNUAL,2026-01-01
+MIX-0002,Test Employee 0002,test.0002@example.test,ACTIVE,FULL_TIME,2020-01-03,GB,London,Finance,Financial Analyst,Finance,L3,BASE_SALARY,4600000,GBP,ANNUAL,2026-01-01
+MIX-0003,Test Employee 0003,test.0003@example.test,ACTIVE,FULL_TIME,2020-01-04,CA,Toronto,People,HR Specialist,Human Resources,L4,BASE_SALARY,4700000,CAD,ANNUAL,2026-01-01
+MIX-0004,Test Employee 0004,test.0004@example.test,ACTIVE,FULL_TIME,2020-01-05,IN,Bengaluru,Operations,Operations Manager,Operations,L5,BASE_SALARY,4800000,INR,MONTHLY,2026-01-01
+MIX-0005,Test Employee 0005,test.0005@example.test,ACTIVE,FULL_TIME,2020-01-06,JP,Tokyo,Engineering,QA Engineer,Quality Assurance,L2,BASE_SALARY,4900000,JPY,ANNUAL,2026-01-01
+MIX-0006,Test Employee 0006,test.0006@example.test,ACTIVE,FULL_TIME,2020-01-07,US,Chicago,Sales,Sales Manager,Sales,L4,BASE_SALARY,5000000,USD,ANNUAL,2026-01-01
+MIX-0007,Test Employee 0007,test.0007@example.test,ACTIVE,FULL_TIME,2020-01-08,GB,Manchester,Legal,Legal Counsel,Legal,L5,BASE_SALARY,5100000,GBP,ANNUAL,2026-01-01
+MIX-0008,Test Employee 0008,test.0008@example.test,ACTIVE,FULL_TIME,2020-01-09,CA,Vancouver,Marketing,Marketing Lead,Marketing,L4,BASE_SALARY,5200000,CAD,ANNUAL,2026-01-01
+MIX-0009,Test Employee 0009,test.0009@example.test,ACTIVE,FULL_TIME,2020-01-10,IN,Delhi,Product,Product Manager,Product,L5,BASE_SALARY,5300000,INR,ANNUAL,2026-01-01
+MIX-0010,Test Employee 0010,test.0010@example.test,ACTIVE,FULL_TIME,2020-01-11,US,Boston,Engineering,Developer,Software Engineering,L2,BASE_SALARY,5400000,USD,ANNUAL,2026-01-01
+MIX-0011,Test Employee 0011,test.0011@example.test,ACTIVE,FULL_TIME,2020-99-12,GB,London,Finance,Accountant,Finance,L3,BASE_SALARY,5500000,GBP,ANNUAL,2026-01-01
+MIX-0012,Test Employee 0012,test.0012@example.test,ACTIVE,FULL_TIME,2020-01-13,CA,Toronto,People,Recruiter,Human Resources,L4,BASE_SALARY,5600000,CAD,ANNUAL,2026-01-01
+MIX-0013,Test Employee 0013,test.0013@example.test,ACTIVE,FULL_TIME,2020-01-14,IN,Bengaluru,Operations,Coordinator,Operations,L3,BASE_SALARY,5700000,INR,MONTHLY,2026-01-01
+MIX-0014,Test Employee 0014,test.0014@example.test,ACTIVE,FULL_TIME,2020-01-15,JP,Tokyo,Engineering,QA Engineer,Quality Assurance,L2,BASE_SALARY,5800000,JPY,ANNUAL,2026-01-01
+MIX-0015,Test Employee 0015,test.0015@example.test,ACTIVE,FULL_TIME,2020-01-16,US,Chicago,Sales,Sales Analyst,Sales,L3,BASE_SALARY,5900000,USD,ANNUAL,2026-01-01
+MIX-0016,Test Employee 0016,test.0016@example.test,ACTIVE,FULL_TIME,2020-01-17,GB,Manchester,Legal,Paralegal,Legal,L2,BASE_SALARY,6000000,GBP,ANNUAL,2026-01-01
+MIX-0017,Test Employee 0017,test.0017@example.test,ACTIVE,FULL_TIME,2020-01-18,CA,Vancouver,Marketing,Content Lead,Marketing,L4,BASE_SALARY,6100000,CAD,ANNUAL,2026-01-01
+MIX-0018,Test Employee 0018,test.0018@example.test,ACTIVE,FULL_TIME,2020-01-19,IN,Delhi,Product,Product Analyst,Product,L3,BASE_SALARY,6200000,INR,ANNUAL,2026-01-01
+MIX-0019,Test Employee 0019,test.0019@example.test,ACTIVE,FULL_TIME,2020-01-20,US,Boston,Engineering,Developer,Software Engineering,L2,BASE_SALARY,6300000,USD,ANNUAL,2026-01-01
+MIX-0020,Test Employee 0020,test.0020@example.test,ACTIVE,FULL_TIME,2020-01-21,GB,London,Finance,Analyst,Finance,L3,BASE_SALARY,6400000,GBP,ANNUAL,2026-01-01
+MIX-0021,Test Employee 0021,test.0021@example.test,ACTIVE,FULL_TIME,2020-01-22,CA,Toronto,People,HR Specialist,Human Resources,L4,BASE_SALARY,not-a-number,CAD,ANNUAL,2026-01-01
+MIX-0022,Test Employee 0022,test.0022@example.test,ACTIVE,FULL_TIME,2020-01-23,IN,Bengaluru,Operations,Manager,Operations,L5,BASE_SALARY,6600000,INR,MONTHLY,2026-01-01
+MIX-0023,Test Employee 0023,test.0023@example.test,ACTIVE,FULL_TIME,2020-01-24,JP,Tokyo,Engineering,QA Engineer,Quality Assurance,L2,BASE_SALARY,6700000,JPY,ANNUAL,2026-01-01
+MIX-0024,Test Employee 0024,test.0024@example.test,ACTIVE,FULL_TIME,2020-01-25,US,Chicago,Sales,Sales Manager,Sales,L4,BASE_SALARY,6800000,USD,ANNUAL,2026-01-01
+MIX-0025,Test Employee 0025,test.0025@example.test,ACTIVE,FULL_TIME,2020-01-26,GB,Manchester,Legal,Legal Counsel,Legal,L5,BASE_SALARY,6900000,GBP,ANNUAL,2026-01-01
+MIX-0026,Test Employee 0026,test.0026@example.test,ACTIVE,FULL_TIME,2020-01-27,CA,Vancouver,Marketing,Marketing Lead,Marketing,L4,BASE_SALARY,7000000,CAD,ANNUAL,2026-01-01
+MIX-0027,Test Employee 0027,test.0027@example.test,ACTIVE,FULL_TIME,2020-01-28,IN,Delhi,Product,Product Manager,Product,L5,BASE_SALARY,7100000,INR,ANNUAL,2026-01-01
+MIX-0028,Test Employee 0028,test.0028@example.test,ACTIVE,FULL_TIME,2020-01-29,US,Boston,Engineering,Developer,Software Engineering,L2,BASE_SALARY,7200000,USD,ANNUAL,2026-01-01
+MIX-0029,Test Employee 0029,test.0029@example.test,ACTIVE,FULL_TIME,2020-01-30,GB,London,Finance,Accountant,Finance,L3,BASE_SALARY,7300000,GBP,ANNUAL,2026-01-01
+MIX-0030,Test Employee 0030,test.0030@example.test,ACTIVE,FULL_TIME,2020-01-31,CA,Toronto,People,Recruiter,Human Resources,L4,BASE_SALARY,7400000,CAD,ANNUAL,2026-01-01
+MIX-0031,Test Employee 0031,test.0031@example.test,ACTIVE,FULL_TIME,2020-02-01,IN,Bengaluru,Operations,Coordinator,Operations,L3,BASE_SALARY,7500000,US,MONTHLY,2026-01-01
+MIX-0032,Test Employee 0032,test.0032@example.test,ACTIVE,FULL_TIME,2020-02-02,JP,Tokyo,Engineering,QA Engineer,Quality Assurance,L2,BASE_SALARY,7600000,JPY,ANNUAL,2026-01-01
+MIX-0033,Test Employee 0033,test.0033@example.test,ACTIVE,FULL_TIME,2020-02-03,US,Chicago,Sales,Sales Analyst,Sales,L3,BASE_SALARY,7700000,USD,ANNUAL,2026-01-01
+MIX-0034,Test Employee 0034,test.0034@example.test,ACTIVE,FULL_TIME,2020-02-04,GB,Manchester,Legal,Paralegal,Legal,L2,BASE_SALARY,7800000,GBP,ANNUAL,2026-01-01
+MIX-0035,Test Employee 0035,test.0035@example.test,ACTIVE,FULL_TIME,2020-02-05,CA,Vancouver,Marketing,Content Lead,Marketing,L4,BASE_SALARY,7900000,CAD,ANNUAL,2026-01-01
+MIX-0036,Test Employee 0036,test.0036@example.test,ACTIVE,FULL_TIME,2020-02-06,IN,Delhi,Product,Product Analyst,Product,L3,BASE_SALARY,8000000,INR,ANNUAL,2026-01-01
+MIX-0037,Test Employee 0037,test.0037@example.test,ACTIVE,FULL_TIME,2020-02-07,US,Boston,Engineering,Developer,Software Engineering,L2,BASE_SALARY,8100000,USD,ANNUAL,2026-01-01
+MIX-0038,Test Employee 0038,test.0038@example.test,ACTIVE,FULL_TIME,2020-02-08,GB,London,Finance,Analyst,Finance,L3,BASE_SALARY,8200000,GBP,ANNUAL,2026-01-01
+MIX-0039,Test Employee 0039,test.0039@example.test,ACTIVE,FULL_TIME,2020-02-09,CA,Toronto,People,HR Specialist,Human Resources,L4,BASE_SALARY,8300000,CAD,ANNUAL,2026-01-01
+MIX-0040,Test Employee 0040,test.0040@example.test,ACTIVE,FULL_TIME,2020-02-10,IN,Bengaluru,Operations,Manager,Operations,L5,BASE_SALARY,8400000,INR,MONTHLY,2026-01-01
+MIX-0041,Test Employee 0041,test.0041@example.test,ACTIVE,FULL_TIME,2020-02-11,JP,Tokyo,Engineering,QA Engineer,Quality Assurance,L2,COMMISSION,8500000,JPY,ANNUAL,2026-01-01
+MIX-0042,Test Employee 0042,test.0042@example.test,ACTIVE,FULL_TIME,2020-02-12,US,Chicago,Sales,Sales Manager,Sales,L4,BASE_SALARY,8600000,USD,ANNUAL,2026-01-01
+MIX-0043,Test Employee 0043,test.0043@example.test,ACTIVE,FULL_TIME,2020-02-13,GB,Manchester,Legal,Legal Counsel,Legal,L5,BASE_SALARY,8700000,GBP,ANNUAL,2026-01-01
+MIX-0044,Test Employee 0044,test.0044@example.test,ACTIVE,FULL_TIME,2020-02-14,CA,Vancouver,Marketing,Marketing Lead,Marketing,L4,BASE_SALARY,8800000,CAD,ANNUAL,2026-01-01
+MIX-0045,Test Employee 0045,test.0045@example.test,ACTIVE,FULL_TIME,2020-02-15,IN,Delhi,Product,Product Manager,Product,L5,BASE_SALARY,8900000,INR,ANNUAL,2026-01-01
+MIX-0046,Test Employee 0046,test.0046@example.test,ACTIVE,FULL_TIME,2020-02-16,US,Boston,Engineering,Developer,Software Engineering,L2,BASE_SALARY,9000000,USD,ANNUAL,2026-01-01
+MIX-0047,Test Employee 0047,test.0047@example.test,ACTIVE,FULL_TIME,2020-02-17,GB,London,Finance,Accountant,Finance,L3,BASE_SALARY,9100000,GBP,ANNUAL,2026-01-01
+MIX-0048,Test Employee 0048,test.0048@example.test,ACTIVE,FULL_TIME,2020-02-18,CA,Toronto,People,Recruiter,Human Resources,L4,BASE_SALARY,9200000,CAD,ANNUAL,2026-01-01
+MIX-0049,Test Employee 0049,test.0049@example.test,ACTIVE,FULL_TIME,2020-02-19,IN,Bengaluru,Operations,Coordinator,Operations,L3,BASE_SALARY,9300000,INR,MONTHLY,2026-01-01
+MIX-0050,Test Employee 0050,test.0050@example.test,ACTIVE,FULL_TIME,2020-02-20,JP,Tokyo,Engineering,QA Engineer,Quality Assurance,L2,BASE_SALARY,9400000,JPY,ANNUAL,2026-01-01
+MIX-0001,Duplicate Employee,test.0051@example.test,ACTIVE,FULL_TIME,2020-02-21,US,Chicago,Sales,Sales Analyst,Sales,L3,BASE_SALARY,9500000,USD,ANNUAL,2026-01-01
+MIX-0052,Test Employee 0052,test.0052@example.test,ACTIVE,FULL_TIME,2020-02-22,GB,Manchester,Legal,Paralegal,Legal,L2,BASE_SALARY,9600000,GBP,ANNUAL,2026-01-01
+MIX-0053,Test Employee 0053,test.0053@example.test,ACTIVE,FULL_TIME,2020-02-23,CA,Vancouver,Marketing,Content Lead,Marketing,L4,BASE_SALARY,9700000,CAD,ANNUAL,2026-01-01
+MIX-0054,Test Employee 0054,test.0054@example.test,ACTIVE,FULL_TIME,2020-02-24,IN,Delhi,Product,Product Analyst,Product,L3,BASE_SALARY,9800000,INR,ANNUAL,2026-01-01
+MIX-0055,Test Employee 0055,test.0055@example.test,ACTIVE,FULL_TIME,2020-02-25,US,Boston,Engineering,Developer,Software Engineering,L2,BASE_SALARY,9900000,USD,ANNUAL,2026-01-01
+MIX-0056,Test Employee 0056,test.0056@example.test,ACTIVE,FULL_TIME,2020-02-26,GB,London,Finance,Analyst,Finance,L3,BASE_SALARY,10000000,GBP,ANNUAL,2026-01-01
+MIX-0057,Test Employee 0057,test.0057@example.test,ACTIVE,FULL_TIME,2020-02-27,CA,Toronto,People,HR Specialist,Human Resources,L4,BASE_SALARY,10100000,CAD,ANNUAL,2026-01-01
+MIX-0058,Test Employee 0058,test.0058@example.test,ACTIVE,FULL_TIME,2020-02-28,IN,Bengaluru,Operations,Manager,Operations,L5,BASE_SALARY,10200000,INR,MONTHLY,2026-01-01
+MIX-0059,Test Employee 0059,test.0059@example.test,ACTIVE,FULL_TIME,2020-03-01,JP,Tokyo,Engineering,QA Engineer,Quality Assurance,L2,BASE_SALARY,10300000,JPY,ANNUAL,2026-01-01
+MIX-0060,Test Employee 0060,test.0060@example.test,ACTIVE,FULL_TIME,2020-03-02,US,Chicago,Sales,Sales Manager,Sales,L4,BASE_SALARY,10400000,USD,ANNUAL,2026-01-01
+MIX-0061,Test Employee 0061,test.0061@example.test,ACTIVE,FULL_TIME,2020-03-03,GB,Manchester,Legal,Legal Counsel,Legal,L5,BASE_SALARY,10500000,GBP,ANNUAL
+MIX-0062,Test Employee 0062,test.0062@example.test,ACTIVE,FULL_TIME,2020-03-04,CA,Vancouver,Marketing,Marketing Lead,Marketing,L4,BASE_SALARY,10600000,CAD,ANNUAL,2026-01-01
+MIX-0063,Test Employee 0063,test.0063@example.test,ACTIVE,FULL_TIME,2020-03-05,IN,Delhi,Product,Product Manager,Product,L5,BASE_SALARY,10700000,INR,ANNUAL,2026-01-01
+MIX-0064,Test Employee 0064,test.0064@example.test,ACTIVE,FULL_TIME,2020-03-06,US,Boston,Engineering,Developer,Software Engineering,L2,BASE_SALARY,10800000,USD,ANNUAL,2026-01-01
+MIX-0065,Test Employee 0065,test.0065@example.test,ACTIVE,FULL_TIME,2020-03-07,GB,London,Finance,Accountant,Finance,L3,BASE_SALARY,10900000,GBP,ANNUAL,2026-01-01
+MIX-0066,Test Employee 0066,test.0066@example.test,ACTIVE,FULL_TIME,2020-03-08,CA,Toronto,People,Recruiter,Human Resources,L4,BASE_SALARY,11000000,CAD,ANNUAL,2026-01-01
+MIX-0067,Test Employee 0067,test.0067@example.test,ACTIVE,FULL_TIME,2020-03-09,IN,Bengaluru,Operations,Coordinator,Operations,L3,BASE_SALARY,11100000,INR,MONTHLY,2026-01-01
+MIX-0068,Test Employee 0068,test.0068@example.test,ACTIVE,FULL_TIME,2020-03-10,JP,Tokyo,Engineering,QA Engineer,Quality Assurance,L2,BASE_SALARY,11200000,JPY,ANNUAL,2026-01-01
+MIX-0069,Test Employee 0069,test.0069@example.test,ACTIVE,FULL_TIME,2020-03-11,US,Chicago,Sales,Sales Analyst,Sales,L3,BASE_SALARY,11300000,USD,ANNUAL,2026-01-01
+MIX-0070,Test Employee 0070,test.0070@example.test,ACTIVE,FULL_TIME,2020-03-12,GB,Manchester,Legal,Paralegal,Legal,L2,BASE_SALARY,11400000,GBP,ANNUAL,2026-01-01
+MIX-0071,Test Employee 0071,test.0071@example.test,ACTIVE,FULL_TIME,2020-03-13,,Vancouver,Marketing,Content Lead,Marketing,L4,BASE_SALARY,11500000,CAD,ANNUAL,2026-01-01
+MIX-0072,Test Employee 0072,test.0072@example.test,ACTIVE,FULL_TIME,2020-03-14,IN,Delhi,Product,Product Analyst,Product,L3,BASE_SALARY,11600000,INR,ANNUAL,2026-01-01
+MIX-0073,Test Employee 0073,test.0073@example.test,ACTIVE,FULL_TIME,2020-03-15,US,Boston,Engineering,Developer,Software Engineering,L2,BASE_SALARY,11700000,USD,ANNUAL,2026-01-01
+MIX-0074,Test Employee 0074,test.0074@example.test,ACTIVE,FULL_TIME,2020-03-16,GB,London,Finance,Analyst,Finance,L3,BASE_SALARY,11800000,GBP,ANNUAL,2026-01-01
+MIX-0075,Test Employee 0075,test.0075@example.test,ACTIVE,FULL_TIME,2020-03-17,CA,Toronto,People,HR Specialist,Human Resources,L4,BASE_SALARY,11900000,CAD,ANNUAL,2026-01-01
+MIX-0076,Test Employee 0076,test.0076@example.test,ACTIVE,FULL_TIME,2020-03-18,IN,Bengaluru,Operations,Manager,Operations,L5,BASE_SALARY,12000000,INR,MONTHLY,2026-01-01
+MIX-0077,Test Employee 0077,test.0077@example.test,ACTIVE,FULL_TIME,2020-03-19,JP,Tokyo,Engineering,QA Engineer,Quality Assurance,L2,BASE_SALARY,12100000,JPY,ANNUAL,2026-01-01
+MIX-0078,Test Employee 0078,test.0078@example.test,ACTIVE,FULL_TIME,2020-03-20,US,Chicago,Sales,Sales Manager,Sales,L4,BASE_SALARY,12200000,USD,ANNUAL,2026-01-01
+MIX-0079,Test Employee 0079,test.0079@example.test,ACTIVE,FULL_TIME,2020-03-21,GB,Manchester,Legal,Legal Counsel,Legal,L5,BASE_SALARY,12300000,GBP,ANNUAL,2026-01-01
+MIX-0080,Test Employee 0080,test.0080@example.test,ACTIVE,FULL_TIME,2020-03-22,CA,Vancouver,Marketing,Marketing Lead,Marketing,L4,BASE_SALARY,12400000,CAD,ANNUAL,2026-01-01
+MIX-0081,Test Employee 0081,test.0081@example.test,ACTIVE,FULL_TIME,2020-03-23,IN,Delhi,Product,Product Manager,Product,L5,BASE_SALARY,12500000,INR,ANNUAL,2026-13-01
+MIX-0082,Test Employee 0082,test.0082@example.test,ACTIVE,FULL_TIME,2020-03-24,US,Boston,Engineering,Developer,Software Engineering,L2,BASE_SALARY,12600000,USD,ANNUAL,2026-01-01
+MIX-0083,Test Employee 0083,test.0083@example.test,ACTIVE,FULL_TIME,2020-03-25,GB,London,Finance,Accountant,Finance,L3,BASE_SALARY,12700000,GBP,ANNUAL,2026-01-01
+MIX-0084,Test Employee 0084,test.0084@example.test,ACTIVE,FULL_TIME,2020-03-26,CA,Toronto,People,Recruiter,Human Resources,L4,BASE_SALARY,12800000,CAD,ANNUAL,2026-01-01
+MIX-0085,Test Employee 0085,test.0085@example.test,ACTIVE,FULL_TIME,2020-03-27,IN,Bengaluru,Operations,Coordinator,Operations,L3,BASE_SALARY,12900000,INR,MONTHLY,2026-01-01
+MIX-0086,Test Employee 0086,test.0086@example.test,ACTIVE,FULL_TIME,2020-03-28,JP,Tokyo,Engineering,QA Engineer,Quality Assurance,L2,BASE_SALARY,13000000,JPY,ANNUAL,2026-01-01
+MIX-0087,Test Employee 0087,test.0087@example.test,ACTIVE,FULL_TIME,2020-03-29,US,Chicago,Sales,Sales Analyst,Sales,L3,BASE_SALARY,13100000,USD,ANNUAL,2026-01-01
+MIX-0088,Test Employee 0088,test.0088@example.test,ACTIVE,FULL_TIME,2020-03-30,GB,Manchester,Legal,Paralegal,Legal,L2,BASE_SALARY,13200000,GBP,ANNUAL,2026-01-01
+MIX-0089,Test Employee 0089,test.0089@example.test,ACTIVE,FULL_TIME,2020-03-31,CA,Vancouver,Marketing,Content Lead,Marketing,L4,BASE_SALARY,13300000,CAD,ANNUAL,2026-01-01
+MIX-0090,Test Employee 0090,test.0090@example.test,ACTIVE,FULL_TIME,2020-04-01,IN,Delhi,Product,Product Analyst,Product,L3,BASE_SALARY,13400000,INR,ANNUAL,2026-01-01
+MIX-0091,Test Employee 0091,test.0091@example.test,ACTIVE,FULL_TIME,2020-04-02,US,Boston,Engineering,Developer,Software Engineering,L2,BASE_SALARY,-13500000,USD,ANNUAL,2026-01-01
+MIX-0092,Test Employee 0092,test.0092@example.test,ACTIVE,FULL_TIME,2020-04-03,GB,London,Finance,Analyst,Finance,L3,BASE_SALARY,13600000,GBP,ANNUAL,2026-01-01
+MIX-0093,Test Employee 0093,test.0093@example.test,ACTIVE,FULL_TIME,2020-04-04,CA,Toronto,People,HR Specialist,Human Resources,L4,BASE_SALARY,13700000,CAD,ANNUAL,2026-01-01
+MIX-0094,Test Employee 0094,test.0094@example.test,ACTIVE,FULL_TIME,2020-04-05,IN,Bengaluru,Operations,Manager,Operations,L5,BASE_SALARY,13800000,INR,MONTHLY,2026-01-01
+MIX-0095,Test Employee 0095,test.0095@example.test,ACTIVE,FULL_TIME,2020-04-06,JP,Tokyo,Engineering,QA Engineer,Quality Assurance,L2,BASE_SALARY,13900000,JPY,ANNUAL,2026-01-01
+MIX-0096,Test Employee 0096,test.0096@example.test,ACTIVE,FULL_TIME,2020-04-07,US,Chicago,Sales,Sales Manager,Sales,L4,BASE_SALARY,14000000,USD,ANNUAL,2026-01-01
+MIX-0097,Test Employee 0097,test.0097@example.test,ACTIVE,FULL_TIME,2020-04-08,GB,Manchester,Legal,Legal Counsel,Legal,L5,BASE_SALARY,14100000,GBP,ANNUAL,2026-01-01
+MIX-0098,Test Employee 0098,test.0098@example.test,ACTIVE,FULL_TIME,2020-04-09,CA,Vancouver,Marketing,Marketing Lead,Marketing,L4,BASE_SALARY,14200000,CAD,ANNUAL,2026-01-01
+MIX-0099,Test Employee 0099,test.0099@example.test,ACTIVE,FULL_TIME,2020-04-10,IN,Delhi,Product,Product Manager,Product,L5,BASE_SALARY,14300000,INR,ANNUAL,2026-01-01
+MIX-0100,,test.0100@example.test,ACTIVE,FULL_TIME,2020-04-11,US,Boston,Engineering,Developer,Software Engineering,L2,BASE_SALARY,14400000,USD,ANNUAL,2026-01-01

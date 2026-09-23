@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApprovalEvent, ApprovalService, AuditEvent, PendingApprovalItem } from './approval.service';
 
 @Component({
@@ -19,6 +19,7 @@ export class ApprovalWorkspaceComponent implements OnInit {
   readonly auditForm = inject(FormBuilder).nonNullable.group({
     entityType: ['COMPENSATION', Validators.required], entityId: [0, [Validators.required, Validators.min(1)]]
   });
+  readonly approvalSearch = new FormControl('', { nonNullable: true });
   event: ApprovalEvent | null = null;
   auditEvents: AuditEvent[] = [];
   pendingApprovals: PendingApprovalItem[] = [];
@@ -27,6 +28,14 @@ export class ApprovalWorkspaceComponent implements OnInit {
   decisionMessage = '';
   decisionMessageType: 'success' | 'error' | '' = '';
   auditMessage = '';
+
+  get filteredPendingApprovals(): PendingApprovalItem[] {
+    const query = this.approvalSearch.value.trim().toLowerCase();
+    if (!query) return this.pendingApprovals;
+    return this.pendingApprovals.filter(approval =>
+      approval.employeeName.toLowerCase().includes(query)
+      || approval.employeeIdentifier.toLowerCase().includes(query));
+  }
 
   ngOnInit(): void {
     this.loadPendingApprovals();

@@ -1,0 +1,5 @@
+com\acme\salarymanagement\acceptance\CapabilityAcceptanceServiceTest.class
+com\acme\salarymanagement\compensation\CompensationRepositoryQueryTest.class
+com\acme\salarymanagement\security\AuthorizationServiceTest.class
+com\acme\salarymanagement\reporting\CompensationReportServiceTest.class
+com\acme\salarymanagement\audit\AuditAndApprovalServiceTest.class

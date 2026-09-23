@@ -4,6 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EmployeeProfile, CompensationTimelineItem } from './employee.models';
 import { EmployeeService } from './employee.service';
 import { RouterLink } from '@angular/router';
+import { COUNTRIES, CURRENCIES } from '../shared/reference-data';
 
 @Component({
   standalone: true,
@@ -13,6 +14,8 @@ import { RouterLink } from '@angular/router';
 })
 export class EmployeeWorkspaceComponent {
   private readonly service = inject(EmployeeService);
+  readonly countries = COUNTRIES;
+  readonly currencies = CURRENCIES;
   readonly searchForm = inject(FormBuilder).nonNullable.group({ query: [''] });
   readonly profileForm = inject(FormBuilder).nonNullable.group({
     employeeIdentifier: ['', Validators.required], fullName: ['', Validators.required], workEmail: ['', [Validators.required, Validators.email]],
